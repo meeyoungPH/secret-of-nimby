@@ -34,11 +34,22 @@
     </div>
     
     <div class="dropdown">
-  <button class="dropbtn">Dropdown</button>
+  <button class="dropbtn">Neighborhood</button>
   <div class="dropdown-content">
-    <a href="#">Neighborhood</a>
-    <a href="#">Crime Type</a>
-    <a href="#">Marta Station</a>
+    <select id="neighborhood" onchange="optionChanged(this.value)"></select>
+  </div>
+    </div>
+    <div class="dropdown">
+  <button class="dropbtn">Crime Type</button>
+  <div class="dropdown-content">
+    <select id="crimeType" onchange="optionChanged(this.value)"></select>
+  </div>
+    </div>
+    <div class="dropdown">
+  <button class="dropbtn">MARTA station</button>
+  <div class="dropdown-content">
+    <select id="martaStation" onchange="optionChanged(this.value)"></select>
+  </div>
     </div>
 </div>
   </div>
