@@ -15,7 +15,7 @@ function init() {
     })
 }
 
-// init()
+init()
 
 // code for plots below
 
