@@ -1,5 +1,7 @@
 // save data to variables
 var crime_data = d3.csv('data/cobra_summary.csv').then(d => d);
+// put neighborhood data into CSV - add median age and income and overall value for metro atlanta
+// also include population numbers by race/ethnicity
 var neighborhood_data = d3.json('data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson').then(d => d);
 var station_data = d3.csv('data/transit_rail_station.csv').then(d => d);
 
@@ -73,6 +75,9 @@ function crimeChanged(value){
 function stationChanged(value){
 
 }
+
+// code for info box below
+
 
 // code for plots below
 
