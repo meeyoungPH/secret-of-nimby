@@ -6,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Secret of NIMBY</title>
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="./static/css/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" -->
+  <!-- integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+  <!-- <link rel="stylesheet" href="./static/css/style.css"> -->
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
@@ -24,7 +24,7 @@
 </head>
 
 <body>
-  <div id="map"></div>
+  <!-- <div id="map"></div> -->
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
@@ -32,32 +32,74 @@
         <p>Use the interactive charts below to explore the dataset</p>
       </div>
     </div>
-    
-    <div class="dropdown">
-  <button class="dropbtn">Neighborhood</button>
-  <div class="dropdown-content">
-    <select id="neighborhood" onchange="optionChanged(this.value)"></select>
-  </div>
+    <div class="row">  
+      <div class="col-md-3">
+        <div class="dropdown">
+          <button class="dropbtn">Neighborhood</button>
+          <div class="dropdown-content">
+            <select id="neighborhood" onchange="optionChanged(this.value)"></select>
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <button class="dropbtn">Crime Type</button>
+          <div class="dropdown-content">
+            <select id="crimeType" onchange="optionChanged(this.value)"></select>
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <button class="dropbtn">MARTA station</button>
+          <div class="dropdown-content">
+            <select id="martaStation" onchange="optionChanged(this.value)"></select>
+          </div>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Crime Stats</h3>
+          </div>
+          <div id="neighborhoodInfo" class="panel-body"></div>
+          <div id="crimeInfo" class="panel-body"></div>
+          <div id="stationInfo" class="panel-body"></div>                    
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div id="map">
+          <img src="heatMap.jpg" style="width:100%" float="center">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div id="bar">
+          <img src="barChart.jpg" style="width:100%"  float="center">
+        </div>
+        <div id="scatter">
+          <img src="scatterPlot.jpg" style="width:100%"  float="center">
+        </div>
+      </div>
     </div>
-    <div class="dropdown">
-  <button class="dropbtn">Crime Type</button>
-  <div class="dropdown-content">
-    <select id="crimeType" onchange="optionChanged(this.value)"></select>
-  </div>
+
+
+  <!-- <div class="container-fluid footer navbar-fixed-bottom" height= "40px" margin-top="-40px" >
+    <div class="col-md-12  text-right">
+      <p>Use the interactive charts below to explore the dataset</p>
     </div>
-    <div class="dropdown">
-  <button class="dropbtn">MARTA station</button>
-  <div class="dropdown-content">
-    <select id="martaStation" onchange="optionChanged(this.value)"></select>
+  </div> -->
+  <div class="row">
+      <div class="navbar navbar-fixed-bottom" font-size="12px" line-height="18px" >
+        <div class="navbar-inner" font-size="12px" line-height="18px" >
+          <div class="width-constraint clearfix">
+              <p class="pull-left muted credit"><b>Secret of NIMBY (Not in my backyard)</b></p>
+              <p class="pull-right muted credit"><b>©2023 • CONFIDENTIAL ALL RIGHTS RESERVED</b></p>
+          </div>
+        </div>
+      </div>
   </div>
-    </div>
 </div>
-  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <!-- <script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script> -->
-  <script src="./static/js/logic.js"></script>
+  <script src="./static/js/server.js"></script>
   <script type="text/javascript" src="static/js/logic.js"></script>
   <script src="https://d3js.org/d3.v5.min.js"></script>
 </body>
