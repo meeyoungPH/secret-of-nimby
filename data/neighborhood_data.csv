@@ -1,0 +1,104 @@
+geoid,neighborhood,total_population,median_age,median_household_income,percent_white,percent_black,percent_hispanic,percent_asian_or_pacific_islander,percent_other_races
+A01,"Margaret Mitchell, Paces, Pleasant Hill",4720,46.674712,,73.7,13.7,4.6,4.2,2.4
+A02,"Kingswood, Mt. Paran/Northside, Mt. Paran Parkway, Randall Mill, West Paces Ferry/Northside, Whitewater Creek",4489,46.560749,131744.63,81.9,3.8,4.2,5.8,2.6
+A03,"Chastain Park, Tuxedo Park",3578,38.233601,188532.32,88.3,1.3,2.9,3.6,1.9
+B01,Peachtree Heights West,5799,54.781735999999995,83711.796,67.9,18.7,5.4,4.0,3.3
+B02,"Buckhead Forest, South Tuxedo Park",4893,33.576254,108796.38,68.2,12.9,8.8,5.3,3.8
+B03,East Chastain Park,2446,36.853773,196305.41,76.1,7.6,5.2,6.1,3.6
+B04,North Buckhead,12806,38.322472,113401.34,69.0,12.3,5.8,8.2,3.3
+B05,Brookhaven,2384,48.460656,,87.2,2.7,4.0,2.9,1.7
+B06,"Buckhead Heights, Lenox, Ridgedale Park",4740,43.46156,96192.125,67.2,14.7,7.4,7.6,2.5
+B07,"Buckhead Village, Peachtree Park",4147,32.116245,94768.256,67.2,14.6,6.8,6.2,3.9
+B08,Pine Hills,8445,32.162999,80136.59,48.3,21.4,15.1,9.8,3.5
+B09,Garden Hills,4984,39.086125,81004.756,73.5,8.4,8.6,4.8,3.2
+B10,"Peachtree Heights East, Peachtree Hills",4239,33.032617,93693.52,82.0,6.0,6.0,2.3,2.4
+B11,Lindbergh/Morosgo,7276,29.514746000000002,66161.553,34.6,32.9,8.1,19.0,4.6
+C01,"Fernleaf, Hanover West, Ridgewood Heights, Wesley Battle, Westover Plantation",3304,38.132003000000005,139274.2,67.0,14.0,10.7,3.8,3.0
+C02,Cross Creek,3065,33.926941,72269.73700000001,58.5,23.3,7.9,5.2,3.9
+C03,"Brandon, Castlewood, Westminster/Milmar, Woodfield",4396,42.939840999999994,140860.93,77.7,10.7,3.5,4.3,2.0
+C04,"Arden/Habersham, Argonne Forest, Peachtree Battle Alliance, Wyngate",2847,49.130261,179203.37,93.1,0.7,2.6,0.9,1.6
+C05,"Collier Hills, Collier Hills North, Colonial Homes",3757,33.728134000000004,77874.011,71.6,12.4,6.8,4.1,4.0
+C06,"Channing Valley, Memorial Park, Springlake, Wildwood (NPU-C)",4745,30.797366999999998,110493.08,76.7,10.9,5.2,4.2,2.2
+D01,"Bolton, Riverside, Whittier Mill Village",6337,33.064663,112021.95,44.2,30.4,15.5,4.3,3.8
+D02,Underwood Hills,3287,33.498321000000004,95068.76199999999,63.0,18.5,7.7,5.7,3.6
+D03,"Berkeley Park, Blandtown, Hills Park",5527,29.453921,94706.604,51.4,28.0,9.1,6.1,4.3
+E01,"Ansley Park, Sherwood Forest",3716,46.673396999999994,117965.74,80.9,6.8,4.9,3.7,2.5
+E02,"Georgia Tech, Marietta Street Artery",9937,20.778579999999998,56728.221,59.8,15.0,7.6,12.9,4.5
+E03,"Ardmore, Brookwood",3193,29.726423999999998,87349.979,64.7,13.7,7.9,8.5,4.2
+E04,"Atlantic Station, Loring Heights",5762,28.163748,65644.88900000001,41.0,31.6,8.2,13.7,4.8
+E05,Brookwood Hills,3390,33.118503000000004,92279.412,57.6,23.9,7.0,5.5,4.4
+E06,Home Park,4946,25.904356,62959.89,45.4,16.7,7.8,24.4,5.3
+E07,Midtown,27740,32.290816,85339.435,61.2,13.6,8.0,11.9,4.7
+F01,Piedmont Heights,3217,31.430027000000003,97980.237,61.3,19.6,6.9,6.5,4.2
+F02,Lindridge/Martin Manor,4111,35.048533,58753.005999999994,37.8,27.4,23.3,7.2,3.2
+F03,"Atkins Park, Virginia Highland",9191,36.370733,94740.65800000001,77.7,5.4,7.6,4.3,2.9
+F04,Morningside/Lenox Park,10860,40.126908,131735.46,76.4,6.3,6.7,4.9,3.0
+F05,Emory University/Center for Disease Control and Prevention/Children's Healthcare of Atlanta,6181,21.084168,43925.359000000004,32.9,41.2,5.4,17.5,2.5
+G01,"Atlanta Industrial Park, Bolton Hills, Brookview Heights, Chattahoochee, English Park, Lincoln Homes, Monroe Heights",2414,32.026763,36436.727999999996,4.3,83.3,6.9,1.1,2.9
+G02,"Almond Park, Carey Park",2788,30.65737,19022.606,1.9,92.0,3.2,0.3,1.3
+G03,"Carver Hills, Rockdale, Scotts Crossing, West Highlands",4688,34.501177,42811.981,12.5,76.2,5.1,2.1,3.1
+H01,"Bankhead Courts, Bankhead/Bolton, Carroll Heights, Fairburn Heights, Old Gordon",3273,31.175876000000002,26260.528,1.3,87.6,7.6,0.1,2.3
+H02,"Adamsville, Oakcliff",2285,26.624973999999998,28946.106,1.4,91.1,4.6,0.2,1.8
+H03,"Fairburn Mays, Mays",4346,38.120932,50009.558,0.5,96.9,0.9,0.1,1.2
+H04,"Baker Hills, Bakers Ferry, Boulder Park, Fairburn Road/Wisteria Lane, Ridgecrest Forest, Wildwood (NPU-H), Wilson Mill Meadows, Wisteria Gardens",4536,37.239416,48549.85,0.9,89.3,6.7,0.1,2.2
+I01,"Beecher Hills, Florida Heights, Westwood Terrace",2955,43.388519,38030.421,4.2,90.0,3.2,0.2,2.0
+I02,"Cascade Heights, East Ardley Road, Green Acres Valley, Green Forest Acres, Horseshoe Community, Magnum Manor, West Manor",2879,48.994504,65935.024,1.9,90.9,2.7,0.4,3.0
+I03,"Audobon Forest, Audobon Forest West, Chalet Woods, Harland Terrace, Peyton Forest, Westhaven",5455,46.40954,36184.242,1.7,91.3,4.6,0.1,1.9
+I04,Collier Heights,5292,43.98278,37819.708,2.5,92.4,2.2,0.3,2.2
+I05,Ivan Hill,4563,32.89685,27740.208,1.0,92.1,4.7,0.2,1.6
+J01,"Center Hill, Harvel Homes Community",2624,32.466436,23136.44,2.9,90.0,4.0,0.1,2.2
+J02,Grove Park,4866,42.532207,27169.134,6.6,86.6,3.2,0.2,2.4
+J03,"Dixie Hills, Penelope Neighbors, West Lake",3017,44.334453,26545.488999999998,3.5,90.3,2.2,0.2,3.0
+K01,"Hunter Hills, Mozley Park",3679,38.865925,28558.355,6.1,87.0,2.9,0.5,2.4
+K02,"Bankhead, Washington Park",2988,39.335953,25728.976000000002,6.3,85.0,3.6,0.9,3.1
+K03,Knight Park/Howell Station,3362,40.108975,67499.995,20.0,73.1,3.7,1.5,1.1
+L01,Vine City,3396,32.466931,31921.296000000002,3.6,87.3,4.5,1.2,2.6
+L02,English Avenue,3204,30.770263,36427.328,15.1,70.2,4.6,6.0,3.2
+M01,"Castleberry Hill, Downtown",20051,27.274156,56555.861,28.7,52.0,8.0,6.3,4.4
+M02,"Old Fourth Ward, Sweet Auburn",17191,32.370846,68055.63900000001,45.7,37.5,5.8,5.7,4.6
+N01,"Cabbagetown, Reynoldstown",5187,33.878333000000005,102153.1,63.4,18.6,8.3,3.8,4.5
+N02,"Inman Park, Poncey-Highland",8226,34.681595,104793.3,75.7,8.0,6.0,4.9,4.0
+N03,"Candler Park, Druid Hills",5157,38.727698,116645.75,78.9,4.8,5.9,4.6,3.6
+N04,Lake Claire,3097,37.505669,157410.72,81.5,4.6,5.0,2.8,3.2
+O01,"East Lake, The Villages at East Lake",4756,38.108393,91489.373,39.7,49.7,3.7,1.9,3.1
+O02,Kirkwood,6594,34.176227000000004,89393.13,60.6,25.1,5.7,2.8,3.7
+O03,Edgewood,5385,35.518321,79344.63900000001,44.7,43.0,4.7,3.1,3.2
+P01,"Arlington Estates, Ben Hill, Butner/Tell, Elmco Estates, Fairburn, Fairburn Tell, Fairway Acres, Huntington, Lake Estates, Wildwood Forest",4656,44.338959,46476.98,0.9,93.9,1.9,0.2,2.2
+P02,Princeton Lakes,3576,42.487047,78807.947,2.2,89.9,3.5,1.3,1.9
+P03,"Ben Hill Acres, Briar Glen, Cascade Green, Heritage Valley, Meadowbrook Forest, Mt. Gilead Woods",1971,37.652439,39953.271,1.1,94.1,1.2,0.3,3.0
+P04,"Ben Hill Terrace, Kings Forest, Old Fairburn Village",3240,34.601015000000004,39868.974,1.1,92.6,3.2,0.1,2.5
+P05,"Ashley Courts, Greenbriar Village, Niskey Cove, Niskey Lake, Sandlewood Estates",3031,37.704229999999995,47140.761,0.7,95.7,1.8,0.1,1.5
+P06,"Ben Hill Forest, Ben Hill Pines, Brentwood, Deerwood, Mellwood, Rue Royal, Tampa Park",2683,46.792741,49322.651,1.3,92.7,3.0,0.6,1.7
+Q01,"Midwest Cascade, Regency Trace",1645,45.06524,64274.570999999996,1.9,94.2,1.6,0.2,1.8
+R01,"Campbellton Road, Fort Valley, Pomona Park",6978,29.279351000000002,18099.727,1.3,94.5,1.9,0.1,1.8
+R02,"Adams Park, Laurens Valley, Southwest",7015,36.317555,46206.915,2.5,89.8,3.8,0.3,2.6
+R03,Greenbriar,3969,40.071839000000004,30663.265,0.9,94.6,1.9,0.2,1.9
+S01,"Bush Mountain, Oakland City",3490,31.100562,33389.914,7.5,85.7,3.4,0.7,2.0
+S02,"Fort McPherson, Venetian Hills",3860,37.674492,34837.35,5.4,87.2,2.7,0.3,3.4
+S03,Cascade Avenue/Road,2139,35.652845,32751.261000000002,6.0,89.0,2.3,0.3,2.1
+T01,"Ashview Heights, Harris Chiles, Just Us",2540,32.201829,31187.227000000003,4.0,89.9,2.2,0.2,2.8
+T02,"Atlanta University Center, The Villages at Castleberry Hill",5826,20.425158,39131.982,1.2,95.8,1.5,0.2,1.1
+T03,Westview,2827,34.154410999999996,42739.03599999999,17.2,74.8,2.8,0.6,3.5
+T04,West End,4709,37.297453999999995,42277.94,11.3,80.6,2.7,1.5,2.9
+V01,"Capitol Gateway, Summerhill",3414,34.266042999999996,30504.781000000003,20.2,67.5,4.1,2.8,4.2
+V02,"Adair Park, Pittsburgh",4835,33.74256,35628.415,11.8,79.6,3.5,1.0,2.6
+V03,Peoplestown,2788,31.688478999999997,33355.732,18.8,71.8,4.2,1.3,2.8
+V04,Mechanicsville,4447,30.071990000000003,22538.462000000003,3.6,90.6,1.8,0.6,3.1
+W01,"Grant Park, Oakland",9305,34.449411,92561.836,61.0,23.1,6.8,3.5,4.0
+W02,"Benteen Park, Boulevard Heights, Custer/McDonough/Guice, State Facility, Woodland Hills",3868,36.772771,73943.133,37.8,38.9,16.6,2.1,3.2
+W03,Ormewood Park,4673,33.520241,136477.99,64.4,21.5,5.9,3.0,3.3
+W04,East Atlanta,6182,34.49718,70668.807,53.0,34.6,4.5,2.2,3.9
+X01,"Capitol View, Capitol View Manor",2886,36.303121000000004,50842.587,23.3,67.3,3.5,0.9,4.3
+X02,Perkerson,2323,36.875853,23950.447,5.9,78.0,10.5,1.8,2.7
+X03,Hammond Park,2584,39.246231,22443.182,3.8,83.9,8.9,0.7,1.9
+X04,Sylvan Hills,4498,36.172306,36046.071,12.0,79.4,3.7,1.0,2.8
+X05,Airport,0,,,,,,,
+Y01,"Chosewood Park, Englewood Manor",3474,41.051990999999994,42241.984000000004,22.4,62.0,13.8,0.1,1.3
+Y02,"Amal Heights, Betmar LaVilla, High Point, Joyland",2575,26.504210999999998,27464.416,3.4,90.2,2.7,0.3,2.6
+Y03,"South Atlanta, The Villages at Carver",3235,36.407236,24907.398999999998,5.0,87.4,3.1,0.4,2.7
+Y04,Lakewood Heights,1723,32.469077,37651.51,11.6,77.1,4.8,0.8,3.9
+Z01,"Lakewood, Leila Valley, Norwood Manor, Rebel Valley Forest",3593,31.937503000000003,33199.409,3.8,85.3,7.5,0.4,2.0
+Z02,Thomasville Heights,2222,20.24963,18558.552,1.9,91.4,4.4,0.3,0.8
+Z03,"Blair Villa/Poole Creek, Glenrose Heights, Orchard Knob, Rosedale Heights",6799,31.338913,36519.352,1.6,91.0,4.5,0.2,1.8
+Z04,"Browns Mill Park, Polar Rock, Swallow Circle/Baywood",3976,31.116214000000003,31208.662999999997,3.8,87.0,6.2,0.3,2.1
+Z05,South River Gardens,2451,36.620615,44806.10400000001,1.8,92.0,2.9,0.1,1.8
