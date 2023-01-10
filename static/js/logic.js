@@ -1,7 +1,7 @@
 // path to data files
-var crime_path = 'data/cobra_summary.csv'
+var crime_path = 'data/cobra_summary.geojson'
 var neighborhood_path = 'data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
-var station_path = 'data/transit_rail_station.csv'
+var station_path = 'data/Transit_Rail_Stations.csv'
 
 // save data to variables
 var crime_data = d3.csv(crime_path).then(d => d);
@@ -38,7 +38,7 @@ function populateDropdowns() {
 
     // crime dropdown menu
     crime_data.then((data) => {
-        // console.log(data);
+        console.log(data);
 
         // capture unique crime_type values
         let options = [...new Set(data.map(d => d.crime_type))];
@@ -62,9 +62,9 @@ function populateDropdowns() {
         d.forEach(row => {
             d3.select('#martaStation')
                 .append('option')
-                .text(row.station)
+                .text(row.STATION)
                 .attr('class','dd_options')
-                .property('value', row.station)
+                .property('value', row.STATION)
         });
     });
 };
@@ -104,17 +104,17 @@ var baseMap = {
     "Street Map": street
 };
 
-// create overlay object
+// // create overlay object
 var overlayMaps = {
-    // "MARTA Stations": stations,
-    // "Neighborhoods": neighborhoods,
-    // "Larceny (non-vehicle)": larcencyNonVehicle,
-    // "Larceny (from vehicle)": larcenyVehicle,
-    // "Homicide": homicide,
-    // "Aggravated Assault": assault,
-    // "Burglary": burglary,
-    // "Auto-theft": autoTheft,
-    // "Robbery": robbery
+//     "MARTA Stations": stations,
+//     "Neighborhoods": neighborhoods,
+//     "Larceny (non-vehicle)": larcencyNonVehicle,
+//     "Larceny (from vehicle)": larcenyVehicle,
+//     "Homicide": homicide,
+//     "Aggravated Assault": assault,
+//     "Burglary": burglary,
+//     "Auto-theft": autoTheft,
+//     "Robbery": robbery
 };
 
 var myMap = L.map("myMap", {
@@ -122,7 +122,8 @@ var myMap = L.map("myMap", {
     zoom: 5,
     layers: [street]
 });
-myMap.invalidateSize();
+
+// myMap.invalidateSize();
 
 L.control.layers(baseMap, overlayMaps, {
     collapsed: false
