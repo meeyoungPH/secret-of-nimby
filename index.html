@@ -27,9 +27,11 @@
   <!-- <div id="map"></div> -->
   <div class="container">
     <div class="row">
-      <div class="col-md-12 jumbotron text-center">
-        <h1>Secret of NIMBY: Analysis of Atlanta Crimes in relation to the location of MARTA Rail Stations (2022)</h1>
-        <p>Use the interactive charts below to explore the dataset</p>
+      <div class="col-md-12">
+        <div class="jumbotron text-center">
+          <h1>Secret of NIMBY: Analysis of Atlanta Crimes in relation to the location of MARTA Rail Stations (2022)</h1>
+          <p>Use the interactive charts below to explore the dataset</p>
+        </div>
       </div>
     </div>
     <div class="row">  
@@ -37,7 +39,7 @@
         <div class="dropdown">
           <button class="dropbtn">Neighborhood</button>
           <div class="dropdown-content">
-            <select id="neighborhood" onchange="optionChanged(this.value)"></select>
+            <select id="neighborhood" onchange="optionChanged(this.value)" style="width: 200px"></select>
           </div>
         </div>
 
@@ -65,16 +67,15 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div id="map">
-          <img src="heatMap.jpg" style="width:100%" float="center">
+        <div id="myMap">
         </div>
       </div>
       <div class="col-md-3">
         <div id="bar">
-          <img src="barChart.jpg" style="width:100%"  float="center">
+          <!-- <img src="barChart.jpg" style="width:100%"  float="center"> -->
         </div>
         <div id="scatter">
-          <img src="scatterPlot.jpg" style="width:100%"  float="center">
+          <!-- <img src="scatterPlot.jpg" style="width:100%"  float="center"> -->
         </div>
       </div>
     </div>
@@ -99,7 +100,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="./static/js/server.js"></script>
+  <script src="static/js/server.js"></script>
   <script type="text/javascript" src="static/js/logic.js"></script>
   <script src="https://d3js.org/d3.v5.min.js"></script>
 </body>
