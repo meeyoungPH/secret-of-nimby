@@ -28,6 +28,7 @@ function populateDropdowns() {
             d3.select('#neighborhood')
                 .append('option')
                 .text(row.properties.A)
+                .attr('class','dd_options')
                 .property('value', row.properties.A)
         });
     });
@@ -46,6 +47,7 @@ function populateDropdowns() {
             .enter()
                 .append('option')
                 .text(d => d)
+                .attr('class','dd_options')
                 .attr('value', d => d);
     });
 
@@ -58,6 +60,7 @@ function populateDropdowns() {
             d3.select('#martaStation')
                 .append('option')
                 .text(row.station)
+                .attr('class','dd_options')
                 .property('value', row.station)
         });
     });
@@ -81,7 +84,12 @@ function stationChanged(value){
 
 // code for plots below
 
+
 // code for map below
+function crimeMap(neighborhood, crime, station) {
+
+}
+
 
 init()
 
