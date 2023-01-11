@@ -123,17 +123,9 @@ var overlayMaps = {
     "MARTA Stations": stationLayer,
     "Neighborhoods": neighborhoodLayer,
     "Crime Heat Map": crimeHeatLayer
-//     "Larceny (non-vehicle)": larcencyNonVehicle,
-//     "Larceny (from vehicle)": larcenyVehicle,
-//     "Homicide": homicide,
-//     "Aggravated Assault": assault,
-//     "Burglary": burglary,
-//     "Auto-theft": autoTheft,
-//     "Robbery": robbery
 };
 
 var myMap = L.map("myMap", {
-    // center: [33.76299464274702, -84.42307142385204],
     center: [33.80642799242456, -84.41307142385204],
     zoom: 11,
     layers: [street, neighborhoodLayer, stationLayer, crimeHeatLayer]
@@ -148,7 +140,6 @@ L.control.layers(baseMap, overlayMaps, {
 function stationPoints(station) {
     d3.json(station_path).then(d => {
         let results = d.features
-        // console.log(results);
         
         // function to create popup for each feature
         function onEachFeature(feature, layer) {
@@ -158,12 +149,14 @@ function stationPoints(station) {
                 <p>latitude: ${feature.geometry.coordinates[0].toFixed(6)}, longitude: ${feature.geometry.coordinates[1].toFixed(6)}</p>`);
         };
 
+        // add station features to stationLayer
         L.geoJSON(d, {
             onEachFeature: onEachFeature
         }).addTo(stationLayer);
     })
 }
 
+// function to display neighborhood boundaries
 function neighborhoodBoundaries(neighborhood) {
     d3.json(neighborhood_path).then(d => {
         console.log(d.features)
