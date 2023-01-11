@@ -1,14 +1,14 @@
 // path to data files
 var crime_path = 'data/cobra_summary.geojson'
 var neighborhood_path = 'data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
-var station_path = 'data/Transit_Rail_Stations.csv'
+var station_path = 'data/Transit_Rail_stations.geojson'
 
 // save data to variables
-var crime_data = d3.csv(crime_path).then(d => d);
+var crime_data = d3.json(crime_path).then(d => d);
 // put neighborhood data into CSV - add median age and income and overall value for metro atlanta
 // also include population numbers by race/ethnicity
 var neighborhood_data = d3.json(neighborhood_path).then(d => d);
-var station_data = d3.csv(station_path).then(d => d);
+var station_data = d3.json(station_path).then(d => d);
 
 // initialize webpage
 function init(){
@@ -37,11 +37,12 @@ function populateDropdowns() {
     });
 
     // crime dropdown menu
-    crime_data.then((data) => {
-        console.log(data);
+    crime_data.then((d) => {
+        let results = d.features;
+        console.log(results);
 
         // capture unique crime_type values
-        let options = [...new Set(data.map(d => d.crime_type))];
+        let options = [...new Set(results.map(d => d.properties.crime_type))];
 
         // create dropdown elements
         d3.select('#crimeType')
@@ -56,15 +57,16 @@ function populateDropdowns() {
 
     // station dropdown menu
     station_data.then((d) => {
-        // console.log(d);
+        let results = d.features;
+        // console.log(results);
 
         // create dropdown elements
-        d.forEach(row => {
+        results.forEach(row => {
             d3.select('#martaStation')
                 .append('option')
-                .text(row.STATION)
+                .text(row.properties.STATION)
                 .attr('class','dd_options')
-                .property('value', row.STATION)
+                .property('value', row.properties.STATION)
         });
     });
 };
