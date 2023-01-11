@@ -13,6 +13,7 @@ var station_data = d3.json(station_path).then(d => d);
 // initialize webpage
 function init(){
     populateDropdowns()
+    stationPoints()
 }
 
 // TODO: select dropdown menu format that displays the selected value
@@ -24,16 +25,21 @@ function populateDropdowns() {
     // neighborhood dropdown menu
     neighborhood_data.then((d) => {
         let results = d.features
-        // console.log(results);
+        console.log(results);
+
+        // sort neighborhood names
+        let options = [...new Set(results.map(d => d.properties.A))];
+        options.sort(d3.ascending);
 
         // create dropdown elements
-        results.forEach(row => {
-            d3.select('#neighborhood')
+        d3.select('#neighborhood')
+            .selectAll('option')
+                .data(options)
+            .enter()
                 .append('option')
-                .text(row.properties.A)
+                .text(d => d)
                 .attr('class','dd_options')
-                .property('value', row.properties.A)
-        });
+                .attr('value', d => d);
     });
 
     // crime dropdown menu
@@ -43,6 +49,9 @@ function populateDropdowns() {
 
         // capture unique crime_type values
         let options = [...new Set(results.map(d => d.properties.crime_type))];
+
+        // sort values
+        options.sort(d3.ascending)
 
         // create dropdown elements
         d3.select('#crimeType')
@@ -91,25 +100,27 @@ function stationChanged(value){
 
 
 // code for map below
+
 // base layers
 var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
 
-// var grey = L.tileLayer('https://maps.geoapify.com/v1/tile/toner-grey/{z}/{x}/{y}.png?apiKey={api_key}', {
-//     attribution: 'Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a> | <a href="https://openmaptiles.org/" target="_blank">© OpenMapTiles</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap</a> contributors',
-//     maxZoom: 20, id: 'osm-bright', api_key: api_key
-// });
+// create layerGroups
+var neighborhoodLayer = L.layerGroup();
+var stationLayer = L.layerGroup();
+var crimeLayer = L.layerGroup();
 
 // create baseMap object
 var baseMap = {
-    "Street Map": street
+    // "Street Map": street
 };
 
-// // create overlay object
+// create overlay object
 var overlayMaps = {
-//     "MARTA Stations": stations,
-//     "Neighborhoods": neighborhoods,
+    "MARTA Stations": stationLayer,
+    "Neighborhoods": neighborhoodLayer,
+    "Crimes": crimeLayer
 //     "Larceny (non-vehicle)": larcencyNonVehicle,
 //     "Larceny (from vehicle)": larcenyVehicle,
 //     "Homicide": homicide,
@@ -120,19 +131,39 @@ var overlayMaps = {
 };
 
 var myMap = L.map("myMap", {
-    center: [33.74993616961645, -84.39095005719047],
-    zoom: 5,
-    layers: [street]
+    center: [33.76299464274702, -84.42307142385204],
+    zoom: 11.5,
+    layers: [street, neighborhoodLayer, stationLayer]
 });
-
-// myMap.invalidateSize();
 
 L.control.layers(baseMap, overlayMaps, {
     collapsed: false
 }).addTo(myMap);
 
-function crimeMap(neighborhood, crime, station) {
-    
+function stationPoints(station) {
+    d3.json(station_path).then(d => {
+        let results = d.features
+        console.log(results);
+        
+        // function to population popup foe each feature
+        function onEachFeature(feature, layer) {
+            layer.bindPopup(
+                `<h3>${feature.properties.STATION} (${feature.properties.Stn_Code})</h3>
+                <hr>
+                <p>latitude: ${feature.geometry.coordinates[0].toFixed(6)}, longitude: ${feature.geometry.coordinates[1].toFixed(6)}</p>`);
+        };
+
+        L.geoJSON(d, {
+            onEachFeature: onEachFeature
+        }).addTo(stationLayer);
+
+        // show layer on load
+        stationLayer.addTo(myMap);
+    })
+}
+
+function neighborhoodBoundaries(neighborhood) {
+
 
 }
 
