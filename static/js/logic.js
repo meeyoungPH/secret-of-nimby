@@ -1,12 +1,10 @@
 // path to data files
-var crime_path = 'data/cobra_summary.geojson'
+var crime_path = 'data/cobra_summary_200.geojson'
 var neighborhood_path = 'data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
 var station_path = 'data/Transit_Rail_stations.geojson'
 
 // save data to variables
 var crime_data = d3.json(crime_path).then(d => d);
-// put neighborhood data into CSV - add median age and income and overall value for metro atlanta
-// also include population numbers by race/ethnicity
 var neighborhood_data = d3.json(neighborhood_path).then(d => d);
 var station_data = d3.json(station_path).then(d => d);
 
@@ -15,11 +13,10 @@ function init(){
     populateDropdowns()
     stationPoints()
     neighborhoodBoundaries()
-    // crimePoints("ASSAULT")
+    crimeheatMap("ASSAULT")
 }
 
 // TODO: select dropdown menu format that displays the selected value
-// TODO: sort values in dropdown menus - sort in pandas
 
 // populate dropdown menus
 function populateDropdowns() {
@@ -27,7 +24,6 @@ function populateDropdowns() {
     // neighborhood dropdown menu
     neighborhood_data.then((d) => {
         let results = d.features
-        // console.log(results);
 
         // save neighborhood names and code to array and sort
         let options = [...new Set(results.map(d => [d.properties.A, d.properties.STATISTICA]))];
@@ -47,7 +43,6 @@ function populateDropdowns() {
     // crime dropdown menu
     crime_data.then((d) => {
         let results = d.features;
-        // console.log(results);
 
         // capture unique crime_type values
         let options = [...new Set(results.map(d => d.properties.crime_type))];
@@ -69,7 +64,6 @@ function populateDropdowns() {
     // station dropdown menu
     station_data.then((d) => {
         let results = d.features;
-        console.log(results);
 
         // save station name and neighborhood code to array and sort
         let options = [...new Set(results.map(d => d.properties.STATION))];
@@ -106,8 +100,8 @@ function stationChanged(value){
 // code for plots below
 
 
-// code for map below
 
+// code for map below
 // base layers
 var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -117,6 +111,7 @@ var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 var neighborhoodLayer = L.layerGroup();
 var stationLayer = L.layerGroup();
 var crimeLayer = L.layerGroup();
+var crimeHeatLayer = L.layerGroup();
 
 // create baseMap object
 var baseMap = {
@@ -127,7 +122,7 @@ var baseMap = {
 var overlayMaps = {
     "MARTA Stations": stationLayer,
     "Neighborhoods": neighborhoodLayer,
-    "Crimes": crimeLayer
+    "Crime Heat Map": crimeHeatLayer
 //     "Larceny (non-vehicle)": larcencyNonVehicle,
 //     "Larceny (from vehicle)": larcenyVehicle,
 //     "Homicide": homicide,
@@ -141,19 +136,21 @@ var myMap = L.map("myMap", {
     // center: [33.76299464274702, -84.42307142385204],
     center: [33.80642799242456, -84.41307142385204],
     zoom: 11,
-    layers: [street, neighborhoodLayer, stationLayer]
+    layers: [street, neighborhoodLayer, stationLayer, crimeHeatLayer]
 });
 
+// add layer controls to map
 L.control.layers(baseMap, overlayMaps, {
     collapsed: false
 }).addTo(myMap);
 
+// function to display MARTA rail station points
 function stationPoints(station) {
     d3.json(station_path).then(d => {
         let results = d.features
         // console.log(results);
         
-        // function to population popup foe each feature
+        // function to create popup for each feature
         function onEachFeature(feature, layer) {
             layer.bindPopup(
                 `<h3>${feature.properties.STATION} (${feature.properties.Stn_Code})</h3>
@@ -169,36 +166,40 @@ function stationPoints(station) {
 
 function neighborhoodBoundaries(neighborhood) {
     d3.json(neighborhood_path).then(d => {
+        console.log(d.features)
+
+        // TODO: this is not working - add popup to show neighborhood name*************************
+        function onEachFeature(feature, layer) {
+            layer.bindPopup(
+                `<h3>${feature.properties.A}</h3>`);
+        }
+        
         L.geoJSON(d, {
-            color: "darkgreen",
+            color: "grey",
             opacity: 1,
             weight: 2
         }).addTo(neighborhoodLayer);
     })
 }
+// function to add crime heat map
+function crimeheatMap(crimeType){
 
-function crimePoints(crimeType){
-    // d3.json(crime_path).then(d => {
-    //     console.log(d.features)
+    d3.json(crime_path).then(d => {
+        let results = d.features;
 
-    //     // function to population popup for each feature
-    //     function onEachFeature(feature, layer) {
-    //         let results = feature.properties;
+        let heatArray = [...new Set(results.map(d => [d.properties.lat, d.properties.long]))];
 
-    //         layer.bindPopup(
-    //             `<h3>${results.crime_type}</h3>
-    //             <hr>
-    //             <p>Closet MARTA rail station: ${results.closest_station}</p>
-    //             <p>Distance away from closest MARTA rail station: ${results.distance_away} km</p>
-    //             <p>latitude: ${feature.geometry.coordinates[0].toFixed(6)}, longitude: ${feature.geometry.coordinates[1].toFixed(6)}</p>`);
-    //     };
+        console.log(heatArray)
 
-    //     L.geoJSON(d, {
-    //         onEachFeature: onEachFeature
-    //     }).addTo(crimeLayer);
-    // })
-}
-
+        // heatmap
+        // https://github.com/Leaflet/Leaflet.heat
+        var heat = L.heatLayer(heatArray, {
+            radius: 25, 
+            blur: 4,
+            minOpacity: 0.3
+        }).addTo(crimeHeatLayer);
+    });
+};
 
 init()
 
