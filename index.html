@@ -18,11 +18,21 @@
      crossorigin=""/>
 
   <!-- Leaflet JavaScript code -->
- <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
-<!-- Leaflet heatmap plugin-->
-<script type="text/javascript" src="static/js/leaflet-heat.js"></script>
+
+  <!-- Leaflet heatmap plugin-->
+  <script type="text/javascript" src="static/js/leaflet-heat.js"></script>
+
+  <!-- Dark Mode Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+  <script>
+    function addDarkmodeWidget() {
+      new Darkmode().showWidget();
+    }
+    window.addEventListener('load', addDarkmodeWidget);
+  </script>
 
 </head>
 
@@ -34,24 +44,21 @@
           <p>Use the interactive charts below to explore the dataset</p>
         </div>
       </div>
-      <div class="row h-100">  
+      <div class="row h-100 bg-light">  
         <div class="col-3">
-          <div class="dropdown">
-            <button class="dropbtn">Neighborhood</button>
+          <div class="dropdown"><b>Neighborhood</b>
             <div class="dropdown-content">
               <select id="neighborhood" onchange="neighborhoodChanged(this.value)" style="width: 250px"></select>
             </div>
           </div>
 
-          <div class="dropdown">
-            <button class="dropbtn">Crime Type</button>
+          <div class="dropdown"><b>Crime Type</b>
             <div class="dropdown-content">
               <select id="crimeType" onchange="crimeTypeChanged(this.value)"  style="width: 250px"></select>
             </div>
           </div>
 
-          <div class="dropdown">
-            <button class="dropbtn">MARTA station</button>
+          <div class="dropdown"><b>MARTA station</b>
             <div class="dropdown-content">
               <select id="martaStation" onchange="martaStationChanged(this.value)"  style="width: 250px"></select>
             </div>
