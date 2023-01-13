@@ -87,13 +87,20 @@ function populateDropdowns() {
 // code for plots below
 
 //Bar chart
-function createBarChart(neighborhood, crimeType) {
+function createBarChart(crimeType) {
     crime_data.then((data) => {
 
         d3.json(crime_path).then(d => {
             let results = d.features;
 
-        console.log(barchart);
+            let xArray = ['AGG ASSAULT', 'AUTO THEFT', 'BURGLARY', 'HOMICIDE', 'LARCENY-FROM VEHICLE', 'LARCNEY-NON VEHICLE','ROBBERY'];
+
+            let yArray = [];
+
+        array = [...new Set(results.filter(d => d.properties.neighborhood == neighborhood))]
+            xArray = [...new Set(array.map(d => [d.properties.lat, d.properties.long]))];
+        
+            //for loop through crimes 
         
         let trace1= {
             x:data(row => row.crime),
