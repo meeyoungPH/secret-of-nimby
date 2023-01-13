@@ -24,9 +24,9 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 
 # save references to tables
-# Crime = Base.classes.cobra_merged
-# Marta = Base.classes.transit_rail_station
-# Neighborhood = Base.classes.neighborhood_data
+Crime = Base.classes.cobra_merged
+Marta = Base.classes.transit_rail_station
+Neighborhood = Base.classes.neighborhood_data
 
 # create app
 app = Flask(__name__)
