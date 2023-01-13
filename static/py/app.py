@@ -6,9 +6,30 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
+from config import username, password
 
 # engine here
+#Connect to database
+protocol = 'postgresql'
+host = 'localhost'
+port = 5432
+database_name = 'secret_of_nimby'
+rds_connection_string = f'{protocol}://{username}:{password}@{host}:{port}/{database_name}'
+engine = create_engine(rds_connection_string)
 
+# reflect database into model
+Base = automap_base()
+
+# reflect tables
+Base.prepare(engine, reflect=True)
+
+# save references to tables
+Crime = Base.classes.cobra_merged
+Marta = Base.classes.transit_rail_station
+Neighborhood = Base.classes.neighborhood_data
+
+# create app
+app = Flask(__name__)
 
 ## routes for geojson
 
@@ -19,6 +40,13 @@ from sqlalchemy import create_engine, func
 ## station geojson
 
 ## route for bar chart
+@app.route('/api/crime-type-bar-chart')
+def crime_type():
+    
+    # create session from Python to the DB
+    session = Session(engine)
+    
+    
 
 ## route for other chart
 

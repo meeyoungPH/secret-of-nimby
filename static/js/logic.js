@@ -64,6 +64,7 @@ function populateDropdowns() {
     // station dropdown menu
     station_data.then((d) => {
         let results = d.features;
+        console.log(results)
 
         // save station name and neighborhood code to array and sort
         let options = [...new Set(results.map(d => d.properties.STATION))];
