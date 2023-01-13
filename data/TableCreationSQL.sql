@@ -50,3 +50,16 @@ CREATE TABLE cobra_merged (
 	distance_away DOUBLE PRECISION,
 	geoid VARCHAR
 );
+
+CREATE TABLE neighborhood_data (
+	geoid VARCHAR,
+	neighborhood VARCHAR,
+	total_population VARCHAR,
+	median_age VARCHAR,
+	median_household_income VARCHAR,
+	percent_white VARCHAR,
+	percent_black VARCHAR,
+	percent_hispanic VARCHAR,
+	percent_asian_or_pacific_islander VARCHAR,
+	percent_other_races VARCHAR
+);
