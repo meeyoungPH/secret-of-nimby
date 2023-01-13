@@ -1,5 +1,5 @@
 // path to data files
-var crime_path = 'data/cobra_summary_200.geojson'
+var crime_path = 'data/cobra_summary.geojson'
 var neighborhood_path = 'data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
 var station_path = 'data/Transit_Rail_stations.geojson'
 
@@ -13,7 +13,7 @@ function init(){
     populateDropdowns()
     stationPoints()
     neighborhoodBoundaries()
-    crimeheatMap("ASSAULT")
+    crimeheatMap("AGG ASSAULT")
 }
 
 // TODO: select dropdown menu format that displays the selected value
@@ -81,19 +81,6 @@ function populateDropdowns() {
     });
 };
 
-// FUNCTIONS TODO - change in HTML
-function neighborhoodChanged(value){
-
-}
-
-function crimeChanged(value){
-
-}
-
-function stationChanged(value){
-
-}
-
 // code for info box below
 
 
@@ -157,42 +144,75 @@ function stationPoints(station) {
 }
 
 // function to display neighborhood boundaries
-function neighborhoodBoundaries(neighborhood) {
-    d3.json(neighborhood_path).then(d => {
-        console.log(d.features)
+function neighborhoodBoundaries(nCode) {
 
-        // TODO: this is not working - add popup to show neighborhood name*************************
+    // clear existing data from layer
+    neighborhoodLayer.clearLayers();
+
+    neighborhood_data.then(d => {
+        // console.log(d.features)
+
+        // TODO: this is not working - add mouseover popup to show neighborhood name*************************
         function onEachFeature(feature, layer) {
-            layer.bindPopup(
-                `<h3>${feature.properties.A}</h3>`);
+            layer.bindPopup(`<h3>${feature.properties.A}</h3>`);
+
+            feature.properties.STATISTICA == nCode ?    layer.setStyle({color: "yellow"}).bringToFront() :
+                                                        layer.setStyle({color: "purple"});
         }
         
         L.geoJSON(d, {
-            color: "grey",
+            onEachFeature: onEachFeature,
             opacity: 1,
             weight: 2
         }).addTo(neighborhoodLayer);
     })
+
+   
 }
 // function to add crime heat map
 function crimeheatMap(crimeType){
 
+    // clear existing data from heatmap layer
+    crimeHeatLayer.clearLayers();
+
     d3.json(crime_path).then(d => {
+        
         let results = d.features;
 
-        let heatArray = [...new Set(results.map(d => [d.properties.lat, d.properties.long]))];
+        // console.log(results)
+        
+        // save data to an array and filter by crime type
+        array = [...new Set(results.filter(d => d.properties.crime_type == crimeType))]
+        heatArray = [...new Set(array.map(d => [d.properties.lat, d.properties.long]))];
 
-        console.log(heatArray)
+        // console.log(heatArray)
 
         // heatmap
-        // https://github.com/Leaflet/Leaflet.heat
         var heat = L.heatLayer(heatArray, {
             radius: 25, 
             blur: 4,
-            minOpacity: 0.3
+            minOpacity: 0.1
         }).addTo(crimeHeatLayer);
     });
 };
 
 init()
+
+function neighborhoodChanged(nCode){
+    // add functions for:
+    neighborhoodBoundaries(nCode)
+    // zoom in on map in neighborhood
+    // update bar chart
+    // update scatter plot
+}
+
+function crimeTypeChanged(crimeType){
+    // update heat map
+    crimeheatMap(value);
+
+    // update bar chart
+    // update scatter plot
+}
+
+// TODO - remove all extraneous datasets
 
