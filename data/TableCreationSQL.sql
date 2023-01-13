@@ -36,3 +36,17 @@ CREATE TABLE transit_rail_station (
 	latitude DOUBLE PRECISION,
 	longitude DOUBLE PRECISION
 );
+
+CREATE TABLE cobra_merged (
+	offense_id BIGINT NOT NULL,
+	occur_date DATE,
+	crime_type VARCHAR,
+	neighborhood VARCHAR,
+	lat DOUBLE PRECISION,
+	long DOUBLE PRECISION,
+	closest_station VARCHAR,
+	difference_in_lat DOUBLE PRECISION,
+	difference_in_long DOUBLE PRECISION,
+	distance_away DOUBLE PRECISION,
+	geoid VARCHAR
+);
