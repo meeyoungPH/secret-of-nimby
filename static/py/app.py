@@ -24,9 +24,9 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 
 # save references to tables
-Crime = Base.classes.cobra_merged
-Marta = Base.classes.transit_rail_station
-Neighborhood = Base.classes.neighborhood_data
+# Crime = Base.classes.cobra_merged
+# Marta = Base.classes.transit_rail_station
+# Neighborhood = Base.classes.neighborhood_data
 
 # create app
 app = Flask(__name__)
@@ -46,8 +46,23 @@ def crime_type():
     # create session from Python to the DB
     session = Session(engine)
     
+    crime_type = session.query(Crime.crime_type).all()
+    
+    session.close()
+    
+    crime_list = [{x.crime_type} for x in crime_type]
+    return jsonify(crime_list)
     
 
 ## route for other chart
 
 ## web route
+@app.route('/')
+def home():
+    return (
+        f'Hello - testing'
+    )
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    
