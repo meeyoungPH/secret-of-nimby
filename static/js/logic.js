@@ -86,7 +86,60 @@ function populateDropdowns() {
 
 // code for plots below
 
+//Bar chart
+function createBarChart(neighborhood, crimeType) {
+    crime_data.then((data) => {
 
+        d3.json(crime_path).then(d => {
+            let results = d.features;
+
+        console.log(barchart);
+        
+        let trace1= {
+            x:data(row => row.crime),
+            y: data(count),
+            type: "bar"
+        };
+
+        let tracedata =[trace1];
+
+        let layout = {
+            title: "Total Crimes by Crime Type"
+        };
+
+        Plotly.newPlot("plot", traceData, layout)
+    })
+});
+
+};
+
+//Scatterplot
+function createScatterPlot(crime, maratastation) {
+    crime_data.then((data) => {
+
+        d3.json(crime_path).then (d => {
+            let results = d.features;
+
+            console.log(ScatterPlot);
+
+            let trace1= {
+                x:data(row => row.closest_station),
+                y: data(row => row.distance_away),
+                type: "scatter"
+        };
+
+        let tracedata =[trace1];
+
+        let layout = {
+            title: "Distance of Crime to Marta Station"
+        };
+
+        Plotly.newPlot("plot", traceData, layout)
+    })
+    
+    });
+
+};
 
 // code for map below
 // base layers
