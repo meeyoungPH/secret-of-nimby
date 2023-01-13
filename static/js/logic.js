@@ -156,8 +156,15 @@ function neighborhoodBoundaries(nCode) {
         function onEachFeature(feature, layer) {
             layer.bindPopup(`<h3>${feature.properties.A}</h3>`);
 
-            feature.properties.STATISTICA == nCode ?    layer.setStyle({color: "yellow"}).bringToFront() :
-                                                        layer.setStyle({color: "purple"});
+            var statistica = feature.properties.STATISTICA;
+
+            statistica == nCode ?   layer.setStyle({color: "yellow"}).bringToFront() :
+                                    layer.setStyle({color: "purple"});
+
+                        if (statistica == nCode) {
+                myMap.fitBounds(layer.getBounds())
+             }
+                                                        
         }
         
         L.geoJSON(d, {
@@ -185,6 +192,7 @@ function crimeheatMap(crimeType){
         array = [...new Set(results.filter(d => d.properties.crime_type == crimeType))]
         heatArray = [...new Set(array.map(d => [d.properties.lat, d.properties.long]))];
 
+        console.log(array)
         // console.log(heatArray)
 
         // heatmap
@@ -208,7 +216,7 @@ function neighborhoodChanged(nCode){
 
 function crimeTypeChanged(crimeType){
     // update heat map
-    crimeheatMap(value);
+    crimeheatMap(crimeType);
 
     // update bar chart
     // update scatter plot
