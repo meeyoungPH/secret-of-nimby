@@ -31,6 +31,13 @@ Neighborhood = Base.classes.neighborhood_data
 # create app
 app = Flask(__name__)
 
+## web route
+@app.route('/')
+def home():
+    return (
+        f'Hello - testing'
+    )
+
 ## routes for geojson
 
 ## crime geojson
@@ -56,12 +63,6 @@ def crime_type():
 
 ## route for other chart
 
-## web route
-@app.route('/')
-def home():
-    return (
-        f'Hello - testing'
-    )
 
 if __name__ == '__main__':
     app.run(debug=True)
