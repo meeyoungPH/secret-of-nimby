@@ -1,5 +1,5 @@
 // path to data files
-var crime_path = 'data/cobra_summary.geojson'
+var crime_path = 'data/cobra_merged.geojson'
 var neighborhood_path = 'data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
 var station_path = 'data/Transit_Rail_stations.geojson'
 var neighborhood_stats_path = 'data/Atlanta_Neighborhood_Data_raw.csv'
@@ -10,7 +10,6 @@ var neighborhood_data = d3.json(neighborhood_path).then(d => d);
 var station_data = d3.json(station_path).then(d => d);
 // TODO - create record for overall stats for metro Atlanta (Ryan)
 var neighborhood_stats = d3.csv(neighborhood_stats_path).then(d => d)
-
 
 // initialize webpage
 function init(){
@@ -100,20 +99,49 @@ function crimeInfo(nCode) {
         .selectAll('p')
         .remove()
     
-    // display crime data
-
-    // display neighborhood data
+        // display neighborhood data
     neighborhood_stats.then(d => {
         let results = d.filter(row => row.GEOID == nCode)[0];
 
+        // add name of neighborhood as title
+        d3.select('#neighborhoodName')
+            .append('h6')
+            .text(results.Details)
+            .attr('class', 'text-center panel-title')
+
+        // add crime stats
+        crime_data.then(d => {
+            let results = d.features.filter(row => row.properties.geoid == nCode);
+            let crimeCount = results.length;
+            console.log(crimeCount)
+
+            // data for info box
+            crime_dict = {
+                'Crimes Reported (2022)': crimeCount,
+                'Crime per 100,000 Pop.': Math.round(crimeCount / totalPop * 100000)
+            }
+ 
+            // add crime stats to DOM
+            for (const [key, value] of Object.entries(crime_dict)) {
+                // console.log(key, value)
+                d3.select('#crimeInfo')
+                    .append('p')
+                    .text(`${key}: ${value}`)
+                    .attr('class', 'info-text')
+            };
+        });
+        
         // currency format settings
         const formatter = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
         });
 
+        // data for info box
+        var totalPop = results['# Total population 2020']
+
         info_dict = {
-            'Total Population': results['# Total population 2020'],
+            'Total Population (2020)': totalPop,
             'Median Age (years)': Math.round(results['Median age (years) 2020']*10)/10,
             'Median Household Income': formatter.format(results['Median household income 2020']),
             '% Hispanic, All Races': results['% Hispanic all races 2020']+'%',
@@ -123,22 +151,14 @@ function crimeInfo(nCode) {
             '% Other Races, NH': results['% Non-Hispanic other race adults 2020']+'%'
         }
 
-        // add name of neighborhood as title
-        d3.select('#neighborhoodName')
-            .append('h6')
-            .text(results.Details)
-            .attr('class', 'text-center panel-title')
-
-        // add neighborhood info summary
+        // add neighborhood stats to DOM
         for (const [key, value] of Object.entries(info_dict)) {
-            console.log(key, value)
+            // console.log(key, value)
             d3.select('#neighborhoodInfo')
                 .append('p')
                 .text(`${key}: ${value}`)
                 .attr('class', 'info-text')
         };
-
-            // d3.select('#neighborhoodInfo').append('p').text('From 2020 Data').attr('style', 'text-align: center; margin-top: 10px;')
     });
 };
 
@@ -146,9 +166,8 @@ function crimeInfo(nCode) {
 
 //Bar chart
 function createBarChart(crimeType) {
-    crime_data.then((data) => {
+    crime_data.then(d => {
 
-        d3.json(crime_path).then(d => {
             let results = d.features;
 
             let xArray = ['AGG ASSAULT', 'AUTO THEFT', 'BURGLARY', 'HOMICIDE', 'LARCENY-FROM VEHICLE', 'LARCNEY-NON VEHICLE','ROBBERY'];
@@ -173,16 +192,15 @@ function createBarChart(crimeType) {
         };
 
         Plotly.newPlot("plot", traceData, layout)
-    })
+
 });
 
 };
 
-//Scatterplot
+// Scatterplot
 function createScatterPlot(crime, maratastation) {
-    crime_data.then((data) => {
+    crime_data.then(d => {
 
-        d3.json(crime_path).then (d => {
             let results = d.features;
 
             console.log(ScatterPlot);
@@ -199,11 +217,8 @@ function createScatterPlot(crime, maratastation) {
             title: "Distance of Crime to Marta Station"
         };
 
-        Plotly.newPlot("plot", traceData, layout)
-    })
-    
+        Plotly.newPlot("plot", traceData, layout)    
     });
-
 };
 
 // code for map below
@@ -243,7 +258,7 @@ L.control.layers(baseMap, overlayMaps, {
 
 // function to display MARTA rail station points
 function stationPoints(station) {
-    d3.json(station_path).then(d => {
+    station_data.then(d => {
         let results = d.features
         
         // function to create popup for each feature
@@ -267,12 +282,11 @@ function neighborhoodBoundaries(nCode) {
     // clear existing data from layer
     neighborhoodLayer.clearLayers();
 
+    // access neighborhood data
     neighborhood_data.then(d => {
-        // console.log(d.features)
 
-        // TODO: this is not working - add mouseover popup to show neighborhood name*************************
         function onEachFeature(feature, layer) {
-            layer.bindPopup(`<h3>${feature.properties.A}</h3>`);
+            layer.bindPopup(`<h5>${feature.properties.A}</h5>`);
 
             var statistica = feature.properties.STATISTICA;
 
@@ -281,8 +295,7 @@ function neighborhoodBoundaries(nCode) {
 
                         if (statistica == nCode) {
                 myMap.fitBounds(layer.getBounds())
-             }
-                                                        
+             }                                
         }
         
         L.geoJSON(d, {
@@ -292,7 +305,6 @@ function neighborhoodBoundaries(nCode) {
         }).addTo(neighborhoodLayer);
     })
 
-   
 }
 // function to add crime heat map
 function crimeheatMap(crimeType){
@@ -300,18 +312,13 @@ function crimeheatMap(crimeType){
     // clear existing data from heatmap layer
     crimeHeatLayer.clearLayers();
 
-    d3.json(crime_path).then(d => {
+    crime_data.then(d => {
         
         let results = d.features;
-
-        // console.log(results)
-        
+       
         // save data to an array and filter by crime type
-        array = [...new Set(results.filter(d => d.properties.crime_type == crimeType))]
-        heatArray = [...new Set(array.map(d => [d.properties.lat, d.properties.long]))];
-
-        console.log(array)
-        // console.log(heatArray)
+        filteredArray = [...new Set(results.filter(d => d.properties.crime_type == crimeType))]
+        heatArray = [...new Set(filteredArray.map(d => [d.properties.lat, d.properties.long]))];
 
         // heatmap
         var heat = L.heatLayer(heatArray, {
@@ -326,18 +333,15 @@ init()
 
 function neighborhoodChanged(nCode){
     // add functions for:
-    // zoom in on map in neighborhood
-    neighborhoodBoundaries(nCode)
-    // update info box
-    crimeInfo(nCode)
+    neighborhoodBoundaries(nCode) // update neighborhood boundaries in map
+    crimeInfo(nCode) // update info box
     // update bar chart
     // update scatter plot
 }
 
 function crimeTypeChanged(crimeType){
-    // update heat map
-    crimeheatMap(crimeType);
-
+    
+    crimeheatMap(crimeType); // update heatmap layer
     // update bar chart
     // update scatter plot
 }
