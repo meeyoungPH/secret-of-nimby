@@ -221,7 +221,7 @@ function createScatterPlot(crime, maratastation) {
     });
 };
 
-// code for map below
+// Leaflet map
 // base layers
 var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -230,10 +230,11 @@ var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // create layerGroups
 var neighborhoodLayer = L.layerGroup();
 var stationLayer = L.layerGroup();
-var crimeLayer = L.layerGroup();
+// var crimeLayer = L.layerGroup();
 var crimeHeatLayer = L.layerGroup();
 
 // create baseMap object
+// TODO add dark mode/map
 var baseMap = {
     // "Street Map": street
 };
@@ -245,6 +246,7 @@ var overlayMaps = {
     "Crime Heat Map": crimeHeatLayer
 };
 
+// settings for map on load
 var myMap = L.map("myMap", {
     center: [33.80642799242456, -84.41307142385204],
     zoom: 11,
@@ -269,6 +271,7 @@ function stationPoints(station) {
                 <p>latitude: ${feature.geometry.coordinates[0].toFixed(6)}, longitude: ${feature.geometry.coordinates[1].toFixed(6)}</p>`);
         };
 
+        // TODO: custom marta station markers
         // add station features to stationLayer
         L.geoJSON(d, {
             onEachFeature: onEachFeature
@@ -285,6 +288,7 @@ function neighborhoodBoundaries(nCode) {
     // access neighborhood data
     neighborhood_data.then(d => {
 
+        // custom colors for neighborhoods based on selection; zoom feature on selected neighborhood
         function onEachFeature(feature, layer) {
             layer.bindPopup(`<h5>${feature.properties.A}</h5>`);
 
@@ -293,25 +297,27 @@ function neighborhoodBoundaries(nCode) {
             statistica == nCode ?   layer.setStyle({color: "yellow"}).bringToFront() :
                                     layer.setStyle({color: "purple"});
 
-                        if (statistica == nCode) {
-                myMap.fitBounds(layer.getBounds())
-             }                                
-        }
+            if (statistica == nCode) {
+               myMap.fitBounds(layer.getBounds())
+            };               
+        };
         
+        // render boundaries
         L.geoJSON(d, {
             onEachFeature: onEachFeature,
             opacity: 1,
             weight: 2
         }).addTo(neighborhoodLayer);
-    })
+    });
+};
 
-}
 // function to add crime heat map
 function crimeheatMap(crimeType){
 
     // clear existing data from heatmap layer
     crimeHeatLayer.clearLayers();
 
+    // access crime data
     crime_data.then(d => {
         
         let results = d.features;
@@ -329,16 +335,19 @@ function crimeheatMap(crimeType){
     });
 };
 
+// apply settings on webpage load
 init()
 
+// control for neighborhood dropdown
 function neighborhoodChanged(nCode){
-    
+
     neighborhoodBoundaries(nCode) // update neighborhood boundaries in map
     crimeInfo(nCode) // update info box
     // update bar chart
     // update scatter plot
 }
 
+// controls for crime type dropdown
 function crimeTypeChanged(crimeType){
     
     crimeheatMap(crimeType); // update heatmap layer
