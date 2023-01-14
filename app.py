@@ -1,5 +1,5 @@
 # dependencies
-from flask import Flask, jsonify
+from flask import Flask, render_template
 import pandas as pd
 # import sqlalchemy
 from sqlalchemy import create_engine
@@ -14,25 +14,19 @@ rds_connection_string = f'{protocol}://{username}:{password}@{host}:{port}/{data
 engine = create_engine(rds_connection_string)
 
 # create app
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
 ## web route
 @app.route('/')
 def home():
-    return (             
-        f'Hello! Here is the list of available routes:<br/>'
-        f'/api/crimes.geojson<br/>'
-        f'/api/neighborhood.geojson<br/>'
-        f'/api/station.geojson<br/>'
-        f'/api/crime-type-bar-chart/<nCode><br/>'
-    )
+    return render_template('index.html')
 
 ## routes for geojson files
 
 ## station geojson
 @app.route('/api/stations.geojson')
 def stationgeojson():
-    filepath = '../../data/Transit_Rail_Stations.geojson'
+    filepath = 'static/data/Transit_Rail_Stations.geojson'
     with open(filepath, 'r', encoding='utf-8') as f:
         data = f.read()
     return data
@@ -40,7 +34,7 @@ def stationgeojson():
 ## crime geojson
 @app.route('/api/crime.geojson')
 def crimegeojson():
-    filepath = '../../data/cobra_merged.geojson'
+    filepath = 'static/data/cobra_merged.geojson'
     with open(filepath, 'r', encoding='utf-8') as f:
         data = f.read()
     return data
@@ -48,7 +42,7 @@ def crimegeojson():
 ## neighborhood geojson
 @app.route('/api/neighborhood.geojson')
 def neighborhoodgeojson():
-    filepath = '../../data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
+    filepath = 'static/data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
     with open(filepath, 'r', encoding='utf-8') as f:
         data = f.read()
     return data

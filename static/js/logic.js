@@ -1,11 +1,12 @@
 // path to data files
-var crime_path = 'data/cobra_merged.geojson'
+var crime_path = '/api/crime.geojson'
 var neighborhood_path = 'data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
 var station_path = 'data/Transit_Rail_stations.geojson'
 var neighborhood_stats_path = 'data/Atlanta_Neighborhood_Data_raw.csv'
 
 // save data to variables
-var crime_data = d3.json(crime_path).then(d => d);
+var crime_data = d3.json('api/crime.geojson').then(d => d);
+console.log(crime_data)
 var neighborhood_data = d3.json(neighborhood_path).then(d => d);
 var station_data = d3.json(station_path).then(d => d);
 // TODO - create record for overall stats for metro Atlanta (Ryan)
