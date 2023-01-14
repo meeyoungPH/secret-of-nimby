@@ -7,6 +7,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 from config import username, password
+import numpy
 
 # engine here
 #Connect to database
@@ -40,18 +41,42 @@ app = Flask(__name__)
 ## station geojson
 
 ## route for bar chart
+# @app.route('/api/crime-type-bar-chart')
+# def crime_type():
+    
+    # create session from Python to the DB
+    # session = Session(engine)
+    
+    # crime_type = session.query(Crime.crime_type).all()
+    
+    # session.close()
+    
+    # crime_list = [{x.crime_type} for x in crime_type]
+    # return jsonify(crime_list)
+
+## route for bar chart
 @app.route('/api/crime-type-bar-chart')
 def crime_type():
     
-    # create session from Python to the DB
-    session = Session(engine)
+    # create session from Python to the DB - Seth
+    conn = engine.connect()
+    crime_df = pd.read_sql("select * from cobra_merged", conn)
+    crime_json = crime_df.to_json(path_or_buf=None, orient=None, date_format=None, double_precision=10, force_ascii=True, date_unit='ms', default_handler=None, lines=False, compression='infer', index=True, indent=None, storage_options=None)
+    return crime_json
+    # crime_count_df = crime_df['crime_type'].value_counts()
+    # crime_count_dict = crime_count_df(orient="records")
+    # return jsonify(crime_df)
+
     
-    crime_type = session.query(Crime.crime_type).all()
+    # Alternate method
+    # session = Session(engine)
+    # crime = session.query(Crime.difference_in_lat).all()
+    # crime_list = [{x.difference_in_lat} for x in crime]
+    # print(crime_list)
     
-    session.close()
+    # session.close()
     
-    crime_list = [{x.crime_type} for x in crime_type]
-    return jsonify(crime_list)
+    # return jsonify(crime_list)
     
 
 ## route for other chart
