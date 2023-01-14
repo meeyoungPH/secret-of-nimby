@@ -332,7 +332,7 @@ function crimeheatMap(crimeType){
 init()
 
 function neighborhoodChanged(nCode){
-    // add functions for:
+    
     neighborhoodBoundaries(nCode) // update neighborhood boundaries in map
     crimeInfo(nCode) // update info box
     // update bar chart
