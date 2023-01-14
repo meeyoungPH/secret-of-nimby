@@ -1,5 +1,5 @@
 # dependencies
-from flask import Flask
+from flask import Flask, jsonify
 import pandas as pd
 # import datetime as dt
 import sqlalchemy
@@ -8,6 +8,7 @@ import sqlalchemy
 from sqlalchemy import create_engine, func
 from config import username, password
 import numpy
+import geopandas as gpd
 
 # engine here
 #Connect to database
@@ -35,16 +36,39 @@ app = Flask(__name__)
 ## web route
 @app.route('/')
 def home():
-    return (
-        f'Hello - testing'
+    return (             
+        f'Hello! Here is the list of available routes:<br/>'
+        f'/api/crimes.geojson<br/>'
+        f'/api/neighborhood.geojson<br/>'
+        f'/api/station.geojson<br/>'
+        f'/api/crime-type-bar-chart/<nCode><br/>'
     )
 
 ## routes for geojson files
-## crime geojson
-
-## neighborhood geojson
 
 ## station geojson
+@app.route('/api/stations.geojson')
+def stationgeojson():
+    filepath = '../../data/Transit_Rail_Stations.geojson'
+    with open(filepath, 'r', encoding='utf-8') as f:
+        data = f.read()
+    return data
+
+## crime geojson
+@app.route('/api/crime.geojson')
+def crimegeojson():
+    filepath = '../../data/cobra_merged.geojson'
+    with open(filepath, 'r', encoding='utf-8') as f:
+        data = f.read()
+    return data
+
+## neighborhood geojson
+@app.route('/api/neighborhood.geojson')
+def neighborhoodgeojson():
+    filepath = '../../data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
+    with open(filepath, 'r', encoding='utf-8') as f:
+        data = f.read()
+    return data
 
 ## route for bar chart
 @app.route('/api/crime-type-bar-chart/<nCode>')
