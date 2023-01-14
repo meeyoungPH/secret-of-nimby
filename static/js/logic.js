@@ -2,22 +2,27 @@
 var crime_path = 'data/cobra_summary.geojson'
 var neighborhood_path = 'data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
 var station_path = 'data/Transit_Rail_stations.geojson'
+var neighborhood_stats_path = 'data/Atlanta_Neighborhood_Data_raw.csv'
 
 // save data to variables
 var crime_data = d3.json(crime_path).then(d => d);
 var neighborhood_data = d3.json(neighborhood_path).then(d => d);
 var station_data = d3.json(station_path).then(d => d);
+// TODO - create record for overall stats for metro Atlanta (Ryan)
+var neighborhood_stats = d3.csv(neighborhood_stats_path).then(d => d)
+
 
 // initialize webpage
 function init(){
+    var nCode = "T02"
+    var crimeType = "AGG ASSAULT"
+    
     populateDropdowns()
     stationPoints()
     neighborhoodBoundaries()
-    crimeheatMap("AGG ASSAULT")
+    crimeheatMap(crimeType)
+    crimeInfo(nCode)
 }
-
-// TODO: select dropdown menu format that displays the selected value
-
 // populate dropdown menus
 function populateDropdowns() {
     
@@ -83,7 +88,59 @@ function populateDropdowns() {
 };
 
 // code for info box below
+function crimeInfo(nCode) {
+    
+    // clear neighborhood name title
+    d3.selectAll('#neighborhoodName')
+        .selectAll('h6')
+        .remove()
 
+    // clear info box
+    d3.selectAll('#neighborhoodName, #crimeInfo, #neighborhoodInfo')
+        .selectAll('p')
+        .remove()
+    
+    // display crime data
+
+    // display neighborhood data
+    neighborhood_stats.then(d => {
+        let results = d.filter(row => row.GEOID == nCode)[0];
+
+        // currency format settings
+        const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        });
+
+        info_dict = {
+            'Total Population': results['# Total population 2020'],
+            'Median Age (years)': Math.round(results['Median age (years) 2020']*10)/10,
+            'Median Household Income': formatter.format(results['Median household income 2020']),
+            '% Hispanic, All Races': results['% Hispanic all races 2020']+'%',
+            '% Asian or Pacific Islander, NH': results['% Non-Hispanic Asian or Pacific Islander 2020']+'%',
+            '% Black, NH': results['% Non-Hispanic Black 2020']+'%',
+            '% White, NH': results['% Non-Hispanic White 2020']+'%',
+            '% Other Races, NH': results['% Non-Hispanic other race adults 2020']+'%'
+        }
+
+        // add name of neighborhood as title
+        d3.select('#neighborhoodName')
+            .append('h6')
+            .text(results.Details)
+            .attr('class', 'text-center panel-title')
+
+        // add neighborhood info summary
+        for (const [key, value] of Object.entries(info_dict)) {
+            console.log(key, value)
+            d3.select('#neighborhoodInfo')
+                .append('p')
+                .text(`${key}: ${value}`)
+                .attr('class', 'info-text')
+        };
+
+            // d3.select('#neighborhoodInfo').append('p').text('From 2020 Data').attr('style', 'text-align: center; margin-top: 10px;')
+    });
+};
 
 // code for plots below
 
@@ -269,8 +326,10 @@ init()
 
 function neighborhoodChanged(nCode){
     // add functions for:
-    neighborhoodBoundaries(nCode)
     // zoom in on map in neighborhood
+    neighborhoodBoundaries(nCode)
+    // update info box
+    crimeInfo(nCode)
     // update bar chart
     // update scatter plot
 }
