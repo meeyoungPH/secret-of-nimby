@@ -1,34 +1,17 @@
 # dependencies
 from flask import Flask, jsonify
 import pandas as pd
-# import datetime as dt
-import sqlalchemy
-# from sqlalchemy.ext.automap import automap_base
-# from sqlalchemy.orm import Session
-from sqlalchemy import create_engine, func
+# import sqlalchemy
+from sqlalchemy import create_engine
 from config import username, password
-import numpy
-import geopandas as gpd
 
-# engine here
-#Connect to database
+# Connect to postgres database
 protocol = 'postgresql'
 host = 'localhost'
 port = 5432
 database_name = 'secret_of_nimby'
 rds_connection_string = f'{protocol}://{username}:{password}@{host}:{port}/{database_name}'
 engine = create_engine(rds_connection_string)
-
-# reflect database into model
-# Base = automap_base()
-
-# reflect tables
-# Base.prepare(engine, reflect=True)
-
-# save references to tables
-# Crime = Base.classes.cobra_merged
-# Marta = Base.classes.transit_rail_station
-# Neighborhood = Base.classes.neighborhood_data
 
 # create app
 app = Flask(__name__)
