@@ -112,7 +112,8 @@ function crimeInfo(nCode) {
         d3.select('#neighborhoodName')
             .append('h6')
             .text(results.neighborhood)
-            .attr('class', 'text-center panel-title');
+            .attr('class', 'text-center panel-title')
+            .append('hr')
 
         // data for info box
         var totalPop = results.total_population;
@@ -124,7 +125,7 @@ function crimeInfo(nCode) {
 
             // data for info box
             let crime_dict = {
-                'Crimes Reported (2022)': addCommas(crimeCount),
+                'Total Crimes Reported (2022)': addCommas(crimeCount),
                 'Crime per 100,000 Pop.': addCommas(Math.round(crimeCount / totalPop * 100000))
             };
  
@@ -232,6 +233,7 @@ function createRadarChart(nCode) {
         }];
 
         let layout = {
+            title: 'Avg Distance from MARTA Rail Station',
             polar: {
                 radialaxis: {
                     visible: true,
