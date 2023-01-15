@@ -1,5 +1,5 @@
 # dependencies
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 import pandas as pd
 # import sqlalchemy
 from sqlalchemy import create_engine
@@ -69,7 +69,7 @@ def crime_type(nCode):
            
     nCode = nCode.upper()
     
-    # create session to the DB
+    # create DB session
     conn = engine.connect()
     
     # import data from postgres
@@ -92,8 +92,29 @@ def crime_type(nCode):
     crime_json = crime_count.to_json(orient='records', index=True)
     return crime_json    
 
-## route for other chart
-
+## route for radar chart
+@app.route('/api/crime-avg-distance/<nCode>')
+def avg_distance(nCode):
+    
+    # change neighborhood code to all caps
+    nCode = nCode.upper()
+    
+    # create DB session
+    conn = engine.connect()
+    
+    # retrieve data from postgres
+    query = "select geoid, distance_away, crime_type from cobra_merged where geoid = '" + nCode + "'"
+    distance_df = pd.read_sql(query, conn)
+    
+    # calculate avg distance per crime type
+    avg_distance = distance_df.groupby('crime_type')['distance_away'].mean()
+    
+    dict = {
+        'crime_type': avg_distance.index.tolist(),
+        'avg_distance': avg_distance.tolist()
+    }
+        
+    return jsonify(dict)
 
 if __name__ == '__main__':
     app.run(debug=True)
