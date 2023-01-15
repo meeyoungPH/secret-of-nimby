@@ -4,6 +4,7 @@ var neighborhood_data = d3.json('/api/neighborhood.geojson').then(d => d);
 var station_data = d3.json('/api/stations.geojson').then(d => d);
 
 // initialize webpage
+// TODO - add reset map button
 function init(){
     var nCode = "T02"
     var crimeType = "AGG ASSAULT"
@@ -16,6 +17,7 @@ function init(){
     createBarChart(nCode)
 }
 // populate dropdown menus
+// TODO: remove airport from list of options
 function populateDropdowns() {
     
     // neighborhood dropdown menu
@@ -163,19 +165,25 @@ function crimeInfo(nCode) {
     });
 };
 
-// code for plots below
-
-//Bar chart
+// create bar chart for total number of crimes by crime type (per neighborhood)
 function createBarChart(nCode) {
+
+    // clear div of content
+    d3.select('#bar')
+        .selectAll('div')
+        .remove()
     
+    // access bar chart data
     d3.json(`/api/crime-type-count/${nCode}`).then(d => {
 
+        // save results to variable
         let results = d[0];
+
+        // initialize arrays
         let crimeType = []
         let count = []
-             
-        // const crime_json = {};
-            
+        
+        // loop through dictionary values and save to arrays
         for (const [key, value] of Object.entries(results)) {
             console.log(`${key}: ${value}`);
 
@@ -183,6 +191,7 @@ function createBarChart(nCode) {
             count.push(value)
         }
         
+        // parameters for bar chart
         let trace1= {
             type: 'bar',
             x: crimeType,
@@ -196,12 +205,27 @@ function createBarChart(nCode) {
             title: "Crimes per Crime Type"
         };
 
+        // plot bar chart
         Plotly.newPlot('bar', data, layout)
     });
 
 };
 
 // Radar chart
+function createRadarChart(nCode) {
+    
+    // clear div of content
+    d3.select('#radar')
+        .selectAll('div')
+        .remove()
+
+    // access radar chart data
+    d3.json(`'/api/crime-avg-distance/${nCode}`).then(d => {
+        console.log(d)
+    });
+    
+};
+
 // data = [{
 //     type: 'scatterpolar',
 //     r: [avg_distance],
@@ -221,8 +245,9 @@ function createBarChart(nCode) {
   
 //   Plotly.newPlot("Avg Distance Away", data, layout)
 
-// Leaflet map
 
+
+// Leaflet map
 // base layers
 var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
