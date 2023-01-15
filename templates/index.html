@@ -34,10 +34,18 @@
     window.addEventListener('load', addDarkmodeWidget);
   </script>
 
+  <style>
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-gap: 5px;
+    }
+
+  </style>
 </head>
 
 <body>
-  <div class="container h-100 d-flex flex-column">
+  <div id="grid" class="container h-100 d-flex flex-column">
       <div class ="row h-25">
         <div class="text-center bg-light">
           <h1>Analysis of Atlanta Crimes in relation to the location of MARTA Rail Stations (2022)</h1>
@@ -77,11 +85,11 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="row h-50 bg-warning"> 
+          <div class="row h-50"> 
             <div id="bar">
             </div>
           </div>
-          <div class="row h-50 bg-secondary"> 
+          <div class="row h-50"> 
             <div id="radar">
             </div>
           </div>
@@ -95,7 +103,7 @@
             </div>
           </div>
       </div>
-</div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
