@@ -199,10 +199,27 @@ function createBarChart(crime_type {
 
     });
 
-})
+});
 
 // Radar chart
-
+data = [{
+    type: 'scatterpolar',
+    r: [avg_distance],
+    theta: ['AGG ASSAULT','AUTO THEFT','BURGLARY','HOMICIDE', 'LARCENY-FROM VEHICLE', 'LARCENY-NON VEHICLE', 'ROBBERY'],
+    fill: 'toself'
+  }]
+  
+  layout = {
+    polar: {
+      radialaxis: {
+        visible: true,
+        range: [0, 2.5]
+      }
+    },
+    showlegend: true
+  }
+  
+  Plotly.newPlot("Avg Distance Away", data, layout)
 
 // Leaflet map
 
