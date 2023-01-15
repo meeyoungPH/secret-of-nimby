@@ -15,9 +15,11 @@ function init(){
     crimeheatMap(crimeType)
     crimeInfo(nCode)
     createBarChart(nCode)
+    createRadarChart(nCode)
 }
 // populate dropdown menus
 // TODO: remove airport from list of options
+// OPTIONAL: add search bar for neighborhood dropdown
 function populateDropdowns() {
     
     // neighborhood dropdown menu
@@ -94,12 +96,12 @@ function crimeInfo(nCode) {
     // clear neighborhood name title
     d3.selectAll('#neighborhoodName')
         .selectAll('h6')
-        .remove()
+        .remove();
 
     // clear info box
     d3.selectAll('#neighborhoodName, #crimeInfo, #neighborhoodInfo')
         .selectAll('p')
-        .remove()
+        .remove();
     
         // display neighborhood data
     d3.json(`/api/neighborhood-info/${nCode}`).then(d => {
@@ -110,22 +112,21 @@ function crimeInfo(nCode) {
         d3.select('#neighborhoodName')
             .append('h6')
             .text(results.neighborhood)
-            .attr('class', 'text-center panel-title')
+            .attr('class', 'text-center panel-title');
 
         // data for info box
-        var totalPop = results.total_population
+        var totalPop = results.total_population;
         
         // add crime stats
         crime_data.then(d => {
             let results = d.features.filter(row => row.properties.geoid == nCode);
             let crimeCount = results.length;
-            console.log(crimeCount)
 
             // data for info box
-            crime_dict = {
+            let crime_dict = {
                 'Crimes Reported (2022)': addCommas(crimeCount),
                 'Crime per 100,000 Pop.': addCommas(Math.round(crimeCount / totalPop * 100000))
-            }
+            };
  
             // add crime stats to DOM
             for (const [key, value] of Object.entries(crime_dict)) {
@@ -143,7 +144,7 @@ function crimeInfo(nCode) {
             currency: 'USD',
         });
 
-        info_dict = {
+        let info_dict = {
             'Total Population (2020)': addCommas(totalPop),
             'Median Age (years)': Math.round(results.median_age*10)/10,
             'Median Household Income': formatter.format(results.median_household_income),
@@ -152,7 +153,7 @@ function crimeInfo(nCode) {
             '% Black, NH': results.percent_black +'%',
             '% White, NH': results.percent_white +'%',
             '% Other Races, NH': results.percent_other_races +'%'
-        }
+        };
 
         // add neighborhood stats to DOM
         for (const [key, value] of Object.entries(info_dict)) {
@@ -171,7 +172,7 @@ function createBarChart(nCode) {
     // clear div of content
     d3.select('#bar')
         .selectAll('div')
-        .remove()
+        .remove();
     
     // access bar chart data
     d3.json(`/api/crime-type-count/${nCode}`).then(d => {
@@ -180,26 +181,26 @@ function createBarChart(nCode) {
         let results = d[0];
 
         // initialize arrays
-        let crimeType = []
-        let count = []
+        let crimeType = [];
+        let count = [];
         
         // loop through dictionary values and save to arrays
         for (const [key, value] of Object.entries(results)) {
             console.log(`${key}: ${value}`);
 
-            crimeType.push(key)
-            count.push(value)
-        }
+            crimeType.push(key);
+            count.push(value);
+        };
         
         // parameters for bar chart
-        let trace1= {
+        let data = [{
             type: 'bar',
             x: crimeType,
             y: count,
             text: crimeType
-        };
+        }];
 
-        let data =[trace1];
+        // let data =[trace1];
 
         let layout = {
             title: "Crimes per Crime Type"
@@ -217,35 +218,30 @@ function createRadarChart(nCode) {
     // clear div of content
     d3.select('#radar')
         .selectAll('div')
-        .remove()
+        .remove();
 
     // access radar chart data
-    d3.json(`'/api/crime-avg-distance/${nCode}`).then(d => {
-        console.log(d)
+    d3.json(`/api/crime-avg-distance/${nCode}`).then(d => {
+        console.log(d.avg_distance);
+
+        let data = [{
+            type: 'scatterpolar',
+            r: d.avg_distance,
+            theta: d.crime_type,
+            fill: 'toself'
+        }];
+
+        let layout = {
+            polar: {
+                radialaxis: {
+                    visible: true,
+                    range: [0, 9]
+                }
+            }
+        };
+        Plotly.newPlot('radar', data, layout);
     });
-    
 };
-
-// data = [{
-//     type: 'scatterpolar',
-//     r: [avg_distance],
-//     theta: ['AGG ASSAULT','AUTO THEFT','BURGLARY','HOMICIDE', 'LARCENY-FROM VEHICLE', 'LARCENY-NON VEHICLE', 'ROBBERY'],
-//     fill: 'toself'
-//   }]
-  
-//   layout = {
-//     polar: {
-//       radialaxis: {
-//         visible: true,
-//         range: [0, 2.5]
-//       }
-//     },
-//     showlegend: true
-//   }
-  
-//   Plotly.newPlot("Avg Distance Away", data, layout)
-
-
 
 // Leaflet map
 // base layers
@@ -366,7 +362,7 @@ function crimeheatMap(crimeType){
         filteredArray = [...new Set(results.filter(d => d.properties.crime_type == crimeType))]
         heatArray = [...new Set(filteredArray.map(d => [d.properties.lat, d.properties.long]))];
 
-        // heatmap
+        // heatmap paramters
         var heat = L.heatLayer(heatArray, {
             radius: 25, 
             blur: 4,
@@ -384,14 +380,12 @@ function neighborhoodChanged(nCode){
     neighborhoodBoundaries(nCode) // update neighborhood boundaries in map
     crimeInfo(nCode) // update info box
     createBarChart(nCode) // update bar chart
-    // update radar chart
+    createRadarChart(nCode) // update radar chart
 }
 
 // controls for crime type dropdown
 function crimeTypeChanged(crimeType){
-    
     crimeheatMap(crimeType); // update heatmap layer
-    // update radar chart
 }
 
 // TODO - remove all extraneous datasets
