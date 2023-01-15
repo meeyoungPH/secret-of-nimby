@@ -165,61 +165,44 @@ function crimeInfo(nCode) {
 // code for plots below
 
 //Bar chart
-function createBarChart(crimeType) {
-    crime_data.then(d => {
+function createBarChart(crime_type {
+    crime_json.then(d => {
 
             let results = d.features;
 
-            let xArray = ['AGG ASSAULT', 'AUTO THEFT', 'BURGLARY', 'HOMICIDE', 'LARCENY-FROM VEHICLE', 'LARCNEY-NON VEHICLE','ROBBERY'];
+            let y = []
 
-            let yArray = [];
+            let x = []
+
+            const crime_json = {};
+            
+            for (const [key,value] of Object.entries(object1)) {
+                console.log('${key}: ${value}');
+                }
 
         array = [...new Set(results.filter(d => d.properties.neighborhood == neighborhood))]
             xArray = [...new Set(array.map(d => [d.properties.lat, d.properties.long]))];
         
-            //for loop through crimes 
-        
         let trace1= {
-            x:data(row => row.crime),
-            y: data(count),
+            x:[],
+            y: [],
             type: "bar"
         };
 
-        let tracedata =[trace1];
+        let data =[trace1];
 
         let layout = {
             title: "Total Crimes by Crime Type"
         };
 
-        Plotly.newPlot("plot", traceData, layout)
+        Plotly.newPlot("plot", data, layout)
 
-});
-
-};
-
-// Scatterplot
-function createScatterPlot(crime, maratastation) {
-    crime_data.then(d => {
-
-            let results = d.features;
-
-            console.log(ScatterPlot);
-
-            let trace1= {
-                x:data(row => row.closest_station),
-                y: data(row => row.distance_away),
-                type: "scatter"
-        };
-
-        let tracedata =[trace1];
-
-        let layout = {
-            title: "Distance of Crime to Marta Station"
-        };
-
-        Plotly.newPlot("plot", traceData, layout)    
     });
-};
+
+})
+
+// Radar chart
+
 
 // Leaflet map
 
