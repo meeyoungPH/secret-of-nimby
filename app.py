@@ -47,13 +47,29 @@ def neighborhoodgeojson():
         data = f.read()
     return data
 
+## route for neighborhood info box
+@app.route('/api/neighborhood-info/<nCode>')
+def neighborhoodinfo(nCode):
+    
+    nCode = nCode.upper()
+    
+    # create session to the DB
+    conn = engine.connect()
+    
+    # retrieve data from postgres
+    query = "select * from neighborhood_data where geoid = '" + nCode + "'"
+    neighborhood_df = pd.read_sql(query, conn)
+    
+    neighborhood_json = neighborhood_df.to_json(orient='records', index=True)
+    return neighborhood_json    
+
 ## route for bar chart
 @app.route('/api/crime-type-bar-chart/<nCode>')
 def crime_type(nCode):
            
     nCode = nCode.upper()
     
-    # create session from Python to the DB
+    # create session to the DB
     conn = engine.connect()
     
     # import data from postgres
