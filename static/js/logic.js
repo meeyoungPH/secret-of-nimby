@@ -222,6 +222,7 @@ function createScatterPlot(crime, maratastation) {
 };
 
 // Leaflet map
+
 // base layers
 var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -287,6 +288,20 @@ function neighborhoodBoundaries(nCode) {
 
     // access neighborhood data
     neighborhood_data.then(d => {
+
+        // title for map - WIP
+        // if(!nCode) {
+        //     console.log("Atlanta")
+        // } else {
+        //     console.log(d.features.filter(d => d.properties.STATISTICA == nCode))
+        //     let subset = d.features.filter(d => d.properties.STATISTICA == nCode)
+        //     let name = subset[0].properties.A
+        //     console.log(name)
+
+        //     d3.select('#myMap')
+        //         .append('h2')
+        //         .text(name)
+        // }
 
         // custom colors for neighborhoods based on selection; zoom feature on selected neighborhood
         function onEachFeature(feature, layer) {
