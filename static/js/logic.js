@@ -13,6 +13,7 @@ function init(){
     neighborhoodBoundaries()
     crimeheatMap(crimeType)
     crimeInfo(nCode)
+    createBarChart(nCode)
 }
 // populate dropdown menus
 function populateDropdowns() {
@@ -165,61 +166,60 @@ function crimeInfo(nCode) {
 // code for plots below
 
 //Bar chart
-function createBarChart(crime_type {
-    crime_json.then(d => {
+function createBarChart(nCode) {
+    
+    d3.json(`/api/crime-type-count/${nCode}`).then(d => {
 
-            let results = d.features;
-
-            let y = []
-
-            let x = []
-
-            const crime_json = {};
+        let results = d[0];
+        let crimeType = []
+        let count = []
+             
+        // const crime_json = {};
             
-            for (const [key,value] of Object.entries(object1)) {
-                console.log('${key}: ${value}');
-                }
+        for (const [key, value] of Object.entries(results)) {
+            console.log(`${key}: ${value}`);
 
-        array = [...new Set(results.filter(d => d.properties.neighborhood == neighborhood))]
-            xArray = [...new Set(array.map(d => [d.properties.lat, d.properties.long]))];
+            crimeType.push(key)
+            count.push(value)
+        }
         
         let trace1= {
-            x:[],
-            y: [],
-            type: "bar"
+            type: 'bar',
+            x: crimeType,
+            y: count,
+            text: crimeType
         };
 
         let data =[trace1];
 
         let layout = {
-            title: "Total Crimes by Crime Type"
+            title: "Crimes per Crime Type"
         };
 
-        Plotly.newPlot("plot", data, layout)
-
+        Plotly.newPlot('bar', data, layout)
     });
 
-});
+};
 
 // Radar chart
-data = [{
-    type: 'scatterpolar',
-    r: [avg_distance],
-    theta: ['AGG ASSAULT','AUTO THEFT','BURGLARY','HOMICIDE', 'LARCENY-FROM VEHICLE', 'LARCENY-NON VEHICLE', 'ROBBERY'],
-    fill: 'toself'
-  }]
+// data = [{
+//     type: 'scatterpolar',
+//     r: [avg_distance],
+//     theta: ['AGG ASSAULT','AUTO THEFT','BURGLARY','HOMICIDE', 'LARCENY-FROM VEHICLE', 'LARCENY-NON VEHICLE', 'ROBBERY'],
+//     fill: 'toself'
+//   }]
   
-  layout = {
-    polar: {
-      radialaxis: {
-        visible: true,
-        range: [0, 2.5]
-      }
-    },
-    showlegend: true
-  }
+//   layout = {
+//     polar: {
+//       radialaxis: {
+//         visible: true,
+//         range: [0, 2.5]
+//       }
+//     },
+//     showlegend: true
+//   }
   
-  Plotly.newPlot("Avg Distance Away", data, layout)
+//   Plotly.newPlot("Avg Distance Away", data, layout)
 
 // Leaflet map
 
@@ -358,16 +358,15 @@ function neighborhoodChanged(nCode){
 
     neighborhoodBoundaries(nCode) // update neighborhood boundaries in map
     crimeInfo(nCode) // update info box
-    // update bar chart
-    // update scatter plot
+    createBarChart(nCode) // update bar chart
+    // update radar chart
 }
 
 // controls for crime type dropdown
 function crimeTypeChanged(crimeType){
     
     crimeheatMap(crimeType); // update heatmap layer
-    // update bar chart
-    // update scatter plot
+    // update radar chart
 }
 
 // TODO - remove all extraneous datasets

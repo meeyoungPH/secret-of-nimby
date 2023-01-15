@@ -64,7 +64,7 @@ def neighborhoodinfo(nCode):
     return neighborhood_json    
 
 ## route for bar chart
-@app.route('/api/crime-type-bar-chart/<nCode>')
+@app.route('/api/crime-type-count/<nCode>')
 def crime_type(nCode):
            
     nCode = nCode.upper()
