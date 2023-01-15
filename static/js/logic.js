@@ -1,15 +1,7 @@
-// path to data files
-// var crime_path = '/api/crime.geojson'
-// var neighborhood_path = 'data/City_of_Atlanta_Neighborhood_Statistical_Areas.geojson'
-// var station_path = 'data/Transit_Rail_stations.geojson'
-// var neighborhood_stats_path = 'data/Atlanta_Neighborhood_Data_raw.csv'
-
 // save data to variables
 var crime_data = d3.json('api/crime.geojson').then(d => d);
 var neighborhood_data = d3.json('/api/neighborhood.geojson').then(d => d);
 var station_data = d3.json('/api/stations.geojson').then(d => d);
-// TODO - create record for overall stats for metro Atlanta (Ryan)
-var neighborhood_stats = d3.csv('/api/neighborhood-info/<nCode>').then(d => d)
 
 // initialize webpage
 function init(){
@@ -68,7 +60,7 @@ function populateDropdowns() {
     // station dropdown menu
     station_data.then((d) => {
         let results = d.features;
-        console.log(results)
+        // console.log(results)
 
         // save station name and neighborhood code to array and sort
         let options = [...new Set(results.map(d => d.properties.STATION))];
@@ -86,8 +78,15 @@ function populateDropdowns() {
     });
 };
 
+// function to add commas to numbers
+function addCommas(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 // code for info box below
 function crimeInfo(nCode) {
+
+    // TODO - create record for overall stats for metro Atlanta (Ryan) in neighborhood table
     
     // clear neighborhood name title
     d3.selectAll('#neighborhoodName')
@@ -100,15 +99,19 @@ function crimeInfo(nCode) {
         .remove()
     
         // display neighborhood data
-    neighborhood_stats.then(d => {
-        let results = d.filter(row => row.GEOID == nCode)[0];
+    d3.json(`/api/neighborhood-info/${nCode}`).then(d => {
+        // console.log(d)
+        let results = d[0];
 
         // add name of neighborhood as title
         d3.select('#neighborhoodName')
             .append('h6')
-            .text(results.Details)
+            .text(results.neighborhood)
             .attr('class', 'text-center panel-title')
 
+        // data for info box
+        var totalPop = results.total_population
+        
         // add crime stats
         crime_data.then(d => {
             let results = d.features.filter(row => row.properties.geoid == nCode);
@@ -117,8 +120,8 @@ function crimeInfo(nCode) {
 
             // data for info box
             crime_dict = {
-                'Crimes Reported (2022)': crimeCount,
-                'Crime per 100,000 Pop.': Math.round(crimeCount / totalPop * 100000)
+                'Crimes Reported (2022)': addCommas(crimeCount),
+                'Crime per 100,000 Pop.': addCommas(Math.round(crimeCount / totalPop * 100000))
             }
  
             // add crime stats to DOM
@@ -137,18 +140,15 @@ function crimeInfo(nCode) {
             currency: 'USD',
         });
 
-        // data for info box
-        var totalPop = results['# Total population 2020']
-
         info_dict = {
-            'Total Population (2020)': totalPop,
-            'Median Age (years)': Math.round(results['Median age (years) 2020']*10)/10,
-            'Median Household Income': formatter.format(results['Median household income 2020']),
-            '% Hispanic, All Races': results['% Hispanic all races 2020']+'%',
-            '% Asian or Pacific Islander, NH': results['% Non-Hispanic Asian or Pacific Islander 2020']+'%',
-            '% Black, NH': results['% Non-Hispanic Black 2020']+'%',
-            '% White, NH': results['% Non-Hispanic White 2020']+'%',
-            '% Other Races, NH': results['% Non-Hispanic other race adults 2020']+'%'
+            'Total Population (2020)': addCommas(totalPop),
+            'Median Age (years)': Math.round(results.median_age*10)/10,
+            'Median Household Income': formatter.format(results.median_household_income),
+            '% Hispanic, All Races': results.percent_hispanic +'%',
+            '% Asian or Pacific Islander, NH': results.percent_asian_or_pacific_islander +'%',
+            '% Black, NH': results.percent_black +'%',
+            '% White, NH': results.percent_white +'%',
+            '% Other Races, NH': results.percent_other_races +'%'
         }
 
         // add neighborhood stats to DOM
