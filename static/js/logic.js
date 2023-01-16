@@ -294,9 +294,9 @@ function stationPoints() {
         // function to create popup for each feature
         function onEachFeature(feature, layer) {
             layer.bindPopup(
-                `<h3>${feature.properties.STATION} (${feature.properties.Stn_Code})</h3>
+                `<h4>${feature.properties.STATION} (${feature.properties.Stn_Code})</h4>
                 <hr>
-                <p>latitude: ${feature.geometry.coordinates[0].toFixed(6)}, longitude: ${feature.geometry.coordinates[1].toFixed(6)}</p>`);
+                <h5>latitude: ${feature.geometry.coordinates[0].toFixed(6)}, longitude: ${feature.geometry.coordinates[1].toFixed(6)}</h5>`);
         };
 
         // TODO: custom marta station markers
