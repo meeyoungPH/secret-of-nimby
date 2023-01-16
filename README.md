@@ -10,17 +10,12 @@ NIMBY, Not In My Back Yard, is a movement that opposes the placement of somethin
 ### Data and Delivery
 Three data components were used to complete this dashboard.
 
-1. Atlanta Neighborhood Demographics (geojson): https://gisdata.fultoncountyga.gov/datasets/d6298dee893
-8464294d3f49d473bcf15/explore?
-location=33.767212%2C-84.420550%2C12.00 
+1. Atlanta Neighborhood Demographics (geojson): https://gisdata.fultoncountyga.gov/datasets/d6298dee8938464294d3f49d473bcf15/explore?location=33.767212%2C-84.420550%2C12.00 
 
 2. MARTA Transit Rail Stations (geojson): https://arc-
-garc.opendata.arcgis.com/datasets/GARC::transit-rail-
-stations/explore?location=33.766815%2C-
-84.384652%2C11.00
+garc.opendata.arcgis.com/datasets/GARC::transit-rail-stations/explore?location=33.766815%2C-84.384652%2C11.00
 
-3. Atlanta Police Department Crime Database (2022): https://www.atlantapd.org/home/showpublisheddocument/5
-257
+3. Atlanta Police Department Crime Database (2022): https://www.atlantapd.org/home/showpublisheddocument/5257
 
 The Altanta Neighborhood Demographics contains ?? unique records, The MARTA Transit Rail Station file contains 33? unique records, and the Atlanta Police Department Crime Database contains 21,000? unique records. Postgres is used to house all the data. The data is then funneled through a Python Flask API to the dashboard. The following API routes were used:
 - @app.route('/api/neighborhoods')
