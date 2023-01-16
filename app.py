@@ -1,11 +1,12 @@
 # dependencies
+##############################
 from flask import Flask, render_template, jsonify
 import pandas as pd
-# import sqlalchemy
 from sqlalchemy import create_engine
 from config import username, password
 
 # Connect to postgres database
+##############################
 protocol = 'postgresql'
 host = 'localhost'
 port = 5432
@@ -14,14 +15,50 @@ rds_connection_string = f'{protocol}://{username}:{password}@{host}:{port}/{data
 engine = create_engine(rds_connection_string)
 
 # create app
+##############################
 app = Flask(__name__, template_folder='templates')
 
-## web route
+# web route
+##############################
 @app.route('/')
 def home():
     return render_template('index.html')
 
-## routes for geojson files
+# routes for dropdown menus
+##############################
+
+## neighborhood
+@app.route('/api/neighborhoods')
+def neighborhood():
+    # create DB session
+    conn = engine.connect()
+    
+    # import data from postgres
+    query = "select geoid, neighborhood from neighborhood_data order by neighborhood"
+    neighborhood_df = pd.read_sql(query, conn)
+    
+    print(neighborhood_df.head())
+    
+    # send json data to webpage
+    neighborhood_json = neighborhood_df.to_json(orient='records', index=True)
+    return neighborhood_json
+
+## crime
+@app.route('/api/crime-types')
+def crime_types():
+    # create DB session
+    conn = engine.connect()
+    
+    # import data from postgres
+    query = "select distinct crime_type from cobra_merged order by crime_type"
+    crime_type_df = pd.read_sql(query, conn)
+    crime_list = crime_type_df.crime_type.tolist()
+    
+    # send json data to webpage
+    return jsonify(crime_list)
+
+# routes for geojson formatted data
+##############################
 
 ## station geojson
 @app.route('/api/stations.geojson')
@@ -47,6 +84,9 @@ def neighborhoodgeojson():
         data = f.read()
     return data
 
+# routes for visualizations
+##############################
+
 ## route for neighborhood info box
 @app.route('/api/neighborhood-info/<nCode>')
 def neighborhoodinfo(nCode):
@@ -60,21 +100,9 @@ def neighborhoodinfo(nCode):
     query = "select * from neighborhood_data where geoid = '" + nCode + "'"
     neighborhood_df = pd.read_sql(query, conn)
     
+    # send json data to webpage
     neighborhood_json = neighborhood_df.to_json(orient='records', index=True)
     return neighborhood_json    
-
-## route for crime dropdown menu
-@app.route('/api/crime-types')
-def crime_types():
-    # create DB session
-    conn = engine.connect()
-    
-    # import data from postgres
-    query = "select distinct crime_type from cobra_merged order by crime_type"
-    crime_type_df = pd.read_sql(query, conn)
-    crime_list = crime_type_df.crime_type.tolist()
-    
-    return jsonify(crime_list)
 
 ## route for bar chart
 @app.route('/api/crime-type-count/<nCode>')
@@ -95,7 +123,8 @@ def crime_count(nCode):
     
     # include this code to pass geoid in json
     # crime_count = crime_count.reset_index()
-        
+    
+    # send json data to webpage
     crime_json = crime_count.to_json(orient='records', index=True)
     return crime_json    
 
@@ -116,6 +145,7 @@ def avg_distance(nCode):
     # calculate avg distance per crime type
     avg_distance = distance_df.groupby('crime_type')['distance_away'].mean()
     
+    # send json data to webpage
     dict = {
         'crime_type': avg_distance.index.tolist(),
         'avg_distance': avg_distance.tolist()
@@ -123,6 +153,8 @@ def avg_distance(nCode):
         
     return jsonify(dict)
 
+# run app
+##############################
 if __name__ == '__main__':
     app.run(debug=True)
     

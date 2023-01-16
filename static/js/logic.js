@@ -22,13 +22,32 @@ function init(){
 function populateDropdowns() {
     
     // neighborhood dropdown menu
-    neighborhood_geojson.then((d) => {
-        let results = d.features
+    // neighborhood_geojson.then((d) => {
+    //     let results = d.features
+
+    //     // save neighborhood names and code to array and sort
+    //     let options = [...new Set(results.map(d => [d.properties.A, d.properties.STATISTICA]))];
+    //     options = options.filter(d => d[0] != 'Airport')
+    //     options.sort(d3.ascending);
+
+    //     // create dropdown elements
+    //     d3.select('#neighborhood')
+    //         .selectAll('option')
+    //             .data(options)
+    //         .enter()
+    //             .append('option')
+    //             .text(d => d[0])
+    //             .attr('class','dd_options')
+    //             .attr('value', d => d[1]);
+    // });
+
+    // neighborhood dropdown menu
+    d3.json('/api/neighborhoods').then(data => {
+        console.log(data)
 
         // save neighborhood names and code to array and sort
-        let options = [...new Set(results.map(d => [d.properties.A, d.properties.STATISTICA]))];
-        options = options.filter(d => d[0] != 'Airport')
-        options.sort(d3.ascending);
+        let options = [...new Set(data.map(d => [d.geoid, d.neighborhood]))];
+        options = options.filter(d => d[1] != 'Airport')
 
         // create dropdown elements
         d3.select('#neighborhood')
@@ -36,13 +55,13 @@ function populateDropdowns() {
                 .data(options)
             .enter()
                 .append('option')
-                .text(d => d[0])
+                .text(d => d[1])
                 .attr('class','dd_options')
-                .attr('value', d => d[1]);
+                .attr('value', d => d[0]);
     });
 
     // crime dropdown menu
-    d3.json('api/crime-types').then((data) => {
+    d3.json('api/crime-types').then(data => {
 
         // capture unique crime_type values
         let options = [...new Set(data.map(d => d))];
