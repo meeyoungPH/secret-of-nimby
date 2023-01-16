@@ -345,7 +345,7 @@ function neighborhoodBoundaries(nCode) {
 
             if (statistica == nCode) {
                myMap.fitBounds(layer.getBounds())
-            };               
+            };
         };
         
         // render boundaries
@@ -354,7 +354,12 @@ function neighborhoodBoundaries(nCode) {
             opacity: 1,
             weight: 2
         }).addTo(neighborhoodLayer);
-    });
+    }).then(d =>{
+        // code for making map clicks interactive - WIP
+        // d3.selectAll('.leaflet-interactive')
+        //     .selectAll('path')
+            // .attr('onclick',)
+    })
 };
 
 // function to add crime heat map
