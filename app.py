@@ -50,7 +50,7 @@ def neighborhoodgeojson():
 ## route for neighborhood info box
 @app.route('/api/neighborhood-info/<nCode>')
 def neighborhoodinfo(nCode):
-    
+    # format neighborhood code to uppercase
     nCode = nCode.upper()
     
     # create session to the DB
@@ -63,23 +63,30 @@ def neighborhoodinfo(nCode):
     neighborhood_json = neighborhood_df.to_json(orient='records', index=True)
     return neighborhood_json    
 
+## route for crime dropdown menu
+@app.route('/api/crime-types')
+def crime_types():
+    # create DB session
+    conn = engine.connect()
+    
+    # import data from postgres
+    query = "select distinct crime_type from cobra_merged order by crime_type"
+    crime_type_df = pd.read_sql(query, conn)
+    crime_list = crime_type_df.crime_type.tolist()
+    
+    return jsonify(crime_list)
+
 ## route for bar chart
 @app.route('/api/crime-type-count/<nCode>')
-def crime_type(nCode):
-           
+def crime_count(nCode):
+    # format neighborhood code to uppercase
     nCode = nCode.upper()
     
     # create DB session
     conn = engine.connect()
     
-    # import data from postgres
-    # use this query to filter data by geoid passed in the route
-    query = "select geoid, crime_type from cobra_merged where geoid = '" + nCode + "'"
-    
-    # use this query to return all records
-    # query = "select geoid, crime_type from cobra_merged"
-    
     # retrieve data from postgres
+    query = "select geoid, crime_type from cobra_merged where geoid = '" + nCode + "'"
     crime_df = pd.read_sql(query, conn)
     
     # count number of each crime by neighborhood

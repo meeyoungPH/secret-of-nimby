@@ -1,7 +1,7 @@
 // save data to variables
-var crime_data = d3.json('api/crime.geojson').then(d => d);
-var neighborhood_data = d3.json('/api/neighborhood.geojson').then(d => d);
-var station_data = d3.json('/api/stations.geojson').then(d => d);
+var crime_geojson = d3.json('api/crime.geojson').then(d => d);
+var neighborhood_geojson = d3.json('/api/neighborhood.geojson').then(d => d);
+var station_geojson = d3.json('/api/stations.geojson').then(d => d);
 
 // initialize webpage
 // TODO - add reset map button
@@ -22,7 +22,7 @@ function init(){
 function populateDropdowns() {
     
     // neighborhood dropdown menu
-    neighborhood_data.then((d) => {
+    neighborhood_geojson.then((d) => {
         let results = d.features
 
         // save neighborhood names and code to array and sort
@@ -42,14 +42,10 @@ function populateDropdowns() {
     });
 
     // crime dropdown menu
-    crime_data.then((d) => {
-        let results = d.features;
+    d3.json('api/crime-types').then((data) => {
 
         // capture unique crime_type values
-        let options = [...new Set(results.map(d => d.properties.crime_type))];
-
-        // sort values
-        options.sort(d3.ascending)
+        let options = [...new Set(data.map(d => d))];
 
         // create dropdown elements
         d3.select('#crimeType')
@@ -63,7 +59,7 @@ function populateDropdowns() {
     });
 
     // station dropdown menu
-    station_data.then((d) => {
+    station_geojson.then((d) => {
         let results = d.features;
         // console.log(results)
 
@@ -119,7 +115,7 @@ function crimeInfo(nCode) {
         var totalPop = results.total_population;
         
         // add crime stats
-        crime_data.then(d => {
+        crime_geojson.then(d => {
             let results = d.features.filter(row => row.properties.geoid == nCode);
             let crimeCount = results.length;
 
@@ -287,7 +283,7 @@ zoomHome.addTo(myMap);
 
 // function to display MARTA rail station points
 function stationPoints() {
-    station_data.then(d => {
+    station_geojson.then(d => {
         
         // function to create popup for each feature
         function onEachFeature(feature, layer) {
@@ -332,7 +328,7 @@ function neighborhoodBoundaries(nCode) {
     neighborhoodLayer.clearLayers();
 
     // access neighborhood data
-    neighborhood_data.then(d => {
+    neighborhood_geojson.then(d => {
 
         // custom colors for neighborhoods based on selection; zoom feature on selected neighborhood
         function onEachFeature(feature, layer) {
@@ -369,7 +365,7 @@ function crimeheatMap(crimeType){
     crimeHeatLayer.clearLayers();
 
     // access crime data
-    crime_data.then(d => {
+    crime_geojson.then(d => {
         
         let results = d.features;
        
