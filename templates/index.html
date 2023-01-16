@@ -39,34 +39,27 @@
     }
     window.addEventListener('load', addDarkmodeWidget);
   </script>
-
-  <style>
-    #grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      grid-gap: 5px;
-    }
-
-  </style>
 </head>
 
 <body>
   <div id="grid" class="container h-100 d-flex flex-column">
       <div class ="row h-25">
         <div class="text-center bg-light">
-          <h1>Analysis of Atlanta Crimes in Relation to the Location of MARTA Rail Stations (2022)</h1>
-          <p>Use the interactive charts below to explore the dataset</p>
+
+          <h1>Analysis of Atlanta Crimes in relation to the location of MARTA Rail Stations (2022)</h1>
+          <p>Use the dropdown menus to explore the interactive charts</p>
+
         </div>
       </div>
       <div class="row h-100 bg-light">  
         <div class="col-md-3 info-div">
           <div class="row h-25">
-            <div class="dropdown"><b>Neighborhood</b>
+            <div class="dropdown" style="color: grey"><b>Neighborhood</b>
               <div class="dropdown-content">
                 <select id="neighborhood" onchange="neighborhoodChanged(this.value)" style="width: 250px"></select>
               </div>
             </div>
-            <div class="dropdown"><b>Crime Type</b><br>
+            <div class="dropdown" style="color: grey"><b>Crime Type</b><br>
               <div class="dropdown-content">
                 <select id="crimeType" onchange="crimeTypeChanged(this.value)"  style="width: 250px"></select><br><br>
               </div>
