@@ -5,6 +5,7 @@ This is an analysis of crime in relation to MARTA rail stations in Atlanta, to d
 NIMBY, Not In My Back Yard, is a movement that opposes the placement of something preceived as unpleasant or hazardous near their home. In the context of Atlanta, GA, the NIMBY movement is opposed to the MARTA Rail stations and lines being expanded near their homes believing crime will follow. This dashboard was built to determine where crimes occur in Atlanta in realtion to MARTA Rail stations. 
 
 ### Installation/Run/How to use
+-Does this need to be included?
 
 ### Data and Delivery
 Three data components were used to complete this dashboard.
