@@ -18,7 +18,6 @@ function init(){
     createRadarChart(nCode)
 }
 // populate dropdown menus
-// TODO: remove airport from list of options
 // OPTIONAL: add search bar for neighborhood dropdown
 function populateDropdowns() {
     
@@ -28,6 +27,7 @@ function populateDropdowns() {
 
         // save neighborhood names and code to array and sort
         let options = [...new Set(results.map(d => [d.properties.A, d.properties.STATISTICA]))];
+        options = options.filter(d => d[0] != 'Airport')
         options.sort(d3.ascending);
 
         // create dropdown elements
@@ -187,7 +187,6 @@ function createBarChart(nCode) {
         
         // loop through dictionary values and save to arrays
         for (const [key, value] of Object.entries(results)) {
-            console.log(`${key}: ${value}`);
 
             crimeType.push(key);
             count.push(value);
@@ -201,10 +200,8 @@ function createBarChart(nCode) {
             text: crimeType
         }];
 
-        // let data =[trace1];
-
         let layout = {
-            title: "Crimes per Crime Type"
+            title: "Total Crimes by Type"
         };
 
         // plot bar chart
@@ -224,6 +221,7 @@ function createRadarChart(nCode) {
     d3.json(`/api/crime-avg-distance/${nCode}`).then(d => {
         console.log(d.avg_distance);
 
+        // define data and chart type
         let data = [{
             type: 'scatterpolar',
             r: d.avg_distance,
@@ -231,8 +229,9 @@ function createRadarChart(nCode) {
             fill: 'toself'
         }];
 
+        // radar chart parameters
         let layout = {
-            title: 'Avg Distance from MARTA Rail Station',
+            title: 'Avg Distance of Crimes from MARTA Rail Station',
             polar: {
                 radialaxis: {
                     visible: true,
@@ -240,6 +239,8 @@ function createRadarChart(nCode) {
                 }
             }
         };
+
+        // plot chart
         Plotly.newPlot('radar', data, layout);
     });
 };
