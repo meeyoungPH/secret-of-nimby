@@ -70,3 +70,8 @@ dropdown-content a {
   display: block;
 }
 
+/* column heights */
+.map-div {
+  height: 840px;
+}
+
