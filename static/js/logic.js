@@ -259,7 +259,6 @@ var crimeHeatLayer = L.layerGroup();
 // create baseMap object
 // TODO add dark mode/map
 var baseMap = {
-    // "Street Map": street
 };
 
 // create overlay object
@@ -271,7 +270,7 @@ var overlayMaps = {
 
 // settings for map on load
 var myMap = L.map("myMap", {
-    center: [33.80642799242456, -84.41307142385204],
+    center: [33.80642799242456, -84.39307142385204],
     zoom: 11,
     zoomControl: false,
     layers: [street, neighborhoodLayer, stationLayer, crimeHeatLayer]
@@ -289,20 +288,39 @@ zoomHome.addTo(myMap);
 // function to display MARTA rail station points
 function stationPoints() {
     station_data.then(d => {
-        let results = d.features
         
         // function to create popup for each feature
         function onEachFeature(feature, layer) {
             layer.bindPopup(
                 `<h4>${feature.properties.STATION} (${feature.properties.Stn_Code})</h4>
                 <hr>
-                <h5>latitude: ${feature.geometry.coordinates[0].toFixed(6)}, longitude: ${feature.geometry.coordinates[1].toFixed(6)}</h5>`);
+                <h5>latitude: ${feature.geometry.coordinates[0].toFixed(6)}, longitude: ${feature.geometry.coordinates[1].toFixed(6)}</h5>`);                
         };
 
-        // TODO: custom marta station markers
+        // function for custom markers
+        function pointToLayer(feature, latlng) {
+            
+            // icon parameters
+            let stationIcon = L.icon({
+                iconUrl: 'static/img/icons8-m-67-1.png',
+                iconSize: [50, 50],
+                iconAnchor: [25, 50],
+                popupAnchor: [0, 0]
+            });
+
+            let markerOptions = {
+                radius: 75,
+                icon: stationIcon
+            };
+
+            // return feature with icon settings
+            return L.marker(latlng, markerOptions);
+        };
+
         // add station features to stationLayer
         L.geoJSON(d, {
-            onEachFeature: onEachFeature
+            onEachFeature: onEachFeature,
+            pointToLayer: pointToLayer
         }).addTo(stationLayer);
     })
 }
@@ -315,20 +333,6 @@ function neighborhoodBoundaries(nCode) {
 
     // access neighborhood data
     neighborhood_data.then(d => {
-
-        // title for map - WIP
-        // if(!nCode) {
-        //     console.log("Atlanta")
-        // } else {
-        //     console.log(d.features.filter(d => d.properties.STATISTICA == nCode))
-        //     let subset = d.features.filter(d => d.properties.STATISTICA == nCode)
-        //     let name = subset[0].properties.A
-        //     console.log(name)
-
-        //     d3.select('#myMap')
-        //         .append('h2')
-        //         .text(name)
-        // }
 
         // custom colors for neighborhoods based on selection; zoom feature on selected neighborhood
         function onEachFeature(feature, layer) {
