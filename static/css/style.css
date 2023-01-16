@@ -75,3 +75,14 @@ dropdown-content a {
   height: 840px;
 }
 
+#grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-gap: 5px;
+}
+
+@media only screen and (max-width: 1300px) {
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }}
