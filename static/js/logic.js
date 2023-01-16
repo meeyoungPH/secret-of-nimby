@@ -210,7 +210,6 @@ function createBarChart(nCode) {
         // plot bar chart
         Plotly.newPlot('bar', data, layout)
     });
-
 };
 
 // Radar chart
@@ -254,7 +253,6 @@ var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // create layerGroups
 var neighborhoodLayer = L.layerGroup();
 var stationLayer = L.layerGroup();
-// var crimeLayer = L.layerGroup();
 var crimeHeatLayer = L.layerGroup();
 
 // create baseMap object
@@ -274,6 +272,7 @@ var overlayMaps = {
 var myMap = L.map("myMap", {
     center: [33.80642799242456, -84.41307142385204],
     zoom: 11,
+    zoomControl: false,
     layers: [street, neighborhoodLayer, stationLayer, crimeHeatLayer]
 });
 
@@ -282,8 +281,12 @@ L.control.layers(baseMap, overlayMaps, {
     collapsed: false
 }).addTo(myMap);
 
+// add zoom home control
+var zoomHome = L.Control.zoomHome();
+zoomHome.addTo(myMap);
+
 // function to display MARTA rail station points
-function stationPoints(station) {
+function stationPoints() {
     station_data.then(d => {
         let results = d.features
         
