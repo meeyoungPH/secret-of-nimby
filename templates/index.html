@@ -22,8 +22,14 @@
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
 
-  <!-- Leaflet heatmap plugin-->
+  <!-- Leaflet heatmap plugin -->
   <script type="text/javascript" src="../static/js/leaflet-heat.js"></script>
+
+  <!-- Font-Awesome -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+
+  <!-- Leaflet zoom home plugin -->
+  <link rel="stylesheet" href="../static/css/leaflet.zoomhome.css"/>
 
   <!-- Dark Mode Plugin -->
   <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
@@ -60,11 +66,9 @@
                 <select id="neighborhood" onchange="neighborhoodChanged(this.value)" style="width: 250px"></select>
               </div>
             </div>
-
             <div class="dropdown"><b>Crime Type</b><br>
               <div class="dropdown-content">
                 <select id="crimeType" onchange="crimeTypeChanged(this.value)"  style="width: 250px"></select><br><br>
-                <button type="reset">Reset Map Zoom</button>
               </div>
             </div>
           </div>
@@ -105,10 +109,12 @@
       </div>
   </div>
 
+  <script type="text/javascript" src="../static/js/leaflet.zoomhome.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script type="text/javascript" src="../static/js/logic.js"></script>
   <script src="https://d3js.org/d3.v5.min.js"></script>
+
 </body>
 
 </html>
