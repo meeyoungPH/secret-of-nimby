@@ -4,7 +4,6 @@ var neighborhood_geojson = d3.json('/api/neighborhood.geojson').then(d => d);
 var station_geojson = d3.json('/api/stations.geojson').then(d => d);
 
 // initialize webpage
-// TODO - add reset map button
 function init(){
     var nCode = "T02"
     var crimeType = "AGG ASSAULT"
@@ -21,26 +20,6 @@ function init(){
 // OPTIONAL: add search bar for neighborhood dropdown
 function populateDropdowns() {
     
-    // neighborhood dropdown menu
-    // neighborhood_geojson.then((d) => {
-    //     let results = d.features
-
-    //     // save neighborhood names and code to array and sort
-    //     let options = [...new Set(results.map(d => [d.properties.A, d.properties.STATISTICA]))];
-    //     options = options.filter(d => d[0] != 'Airport')
-    //     options.sort(d3.ascending);
-
-    //     // create dropdown elements
-    //     d3.select('#neighborhood')
-    //         .selectAll('option')
-    //             .data(options)
-    //         .enter()
-    //             .append('option')
-    //             .text(d => d[0])
-    //             .attr('class','dd_options')
-    //             .attr('value', d => d[1]);
-    // });
-
     // neighborhood dropdown menu
     d3.json('/api/neighborhoods').then(data => {
         console.log(data)
@@ -76,26 +55,6 @@ function populateDropdowns() {
                 .attr('class','dd_options')
                 .attr('value', d => d);
     });
-
-//     // station dropdown menu
-//     station_geojson.then((d) => {
-//         let results = d.features;
-//         // console.log(results)
-
-//         // save station name and neighborhood code to array and sort
-//         let options = [...new Set(results.map(d => d.properties.STATION))];
-//         options.sort(d3.ascending);
-
-//         // create dropdown elements
-//         d3.select('#martaStation')
-//             .selectAll('option')
-//                 .data(options)
-//             .enter()
-//                 .append('option')
-//                 .text(d => d)
-//                 .attr('class','dd_options')
-//                 .attr('value', d => d);
-//     });
 };
 
 // function to add commas to numbers
@@ -160,6 +119,7 @@ function crimeInfo(nCode) {
             currency: 'USD',
         });
 
+        // data for infobox
         let info_dict = {
             'Total Population (2020)': addCommas(totalPop),
             'Median Age (years)': Math.round(results.median_age*10)/10,
