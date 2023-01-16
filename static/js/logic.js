@@ -303,13 +303,13 @@ function stationPoints() {
             // icon parameters
             let stationIcon = L.icon({
                 iconUrl: 'static/img/icons8-m-67-1.png',
-                iconSize: [50, 50],
-                iconAnchor: [25, 50],
+                iconSize: [40, 40], // icon original size is 50x50
+                iconAnchor: [20, 40],
                 popupAnchor: [0, 0]
             });
 
             let markerOptions = {
-                radius: 75,
+                radius: 20,
                 icon: stationIcon
             };
 
