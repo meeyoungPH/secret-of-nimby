@@ -58,25 +58,25 @@ function populateDropdowns() {
                 .attr('value', d => d);
     });
 
-    // station dropdown menu
-    station_geojson.then((d) => {
-        let results = d.features;
-        // console.log(results)
+//     // station dropdown menu
+//     station_geojson.then((d) => {
+//         let results = d.features;
+//         // console.log(results)
 
-        // save station name and neighborhood code to array and sort
-        let options = [...new Set(results.map(d => d.properties.STATION))];
-        options.sort(d3.ascending);
+//         // save station name and neighborhood code to array and sort
+//         let options = [...new Set(results.map(d => d.properties.STATION))];
+//         options.sort(d3.ascending);
 
-        // create dropdown elements
-        d3.select('#martaStation')
-            .selectAll('option')
-                .data(options)
-            .enter()
-                .append('option')
-                .text(d => d)
-                .attr('class','dd_options')
-                .attr('value', d => d);
-    });
+//         // create dropdown elements
+//         d3.select('#martaStation')
+//             .selectAll('option')
+//                 .data(options)
+//             .enter()
+//                 .append('option')
+//                 .text(d => d)
+//                 .attr('class','dd_options')
+//                 .attr('value', d => d);
+//     });
 };
 
 // function to add commas to numbers
