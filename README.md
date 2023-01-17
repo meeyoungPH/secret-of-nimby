@@ -32,6 +32,8 @@ Our dashboard contains multiple charts that reference all the saem data. JavaScr
 ### Visualizations
 There are 4 different views of data on the dashboard: a neghborhood and crime infobox, a heatmap, a bar chart, and a radar chart. Each of these default to the Atlanta area as a whole. There are two dropdown box options that allow the user to choose a Neighborhood and Crime Type. Once an option is chosen, the visualations show the data for those data only. Additionally, the zoom feature allows the user to zoom in on the heat map. The heat map contains a neighborhood layer, a MARTA station layer, and a crime heat layer. 
 
+### Conclusions
+  
 ### Authors
 Annalyse Bergman, Lakshmi Bhimavarapu, Yi Lu, Ryan Marshall, and Meeyoung Park
 
