@@ -49,6 +49,13 @@ Our dashboard contains multiple charts that reference all the crime data and is 
 * D3
 * Bootstrap
 * JQuery
+* Pandas
+* SQLAlchemy
+* Numpy
+* Datetime
+* JSON
+* GeoJSON
+* Math
 * Plotly
 * Leaflet
 * Leaflet Heatmap Plug-in
