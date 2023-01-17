@@ -172,11 +172,22 @@ function createBarChart(nCode) {
             type: 'bar',
             x: crimeType,
             y: count,
-            text: crimeType
+            text: crimeType,
+            color: 'rgb(142,124,195)',
         }];
 
         let layout = {
-            title: "Total Crimes by Type"
+            title: "Total Crimes by Type",
+            xaxis: {
+                title: {
+                    text: 'Crime Type'
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Total Crimes'
+                }
+            }
         };
 
         // plot bar chart
