@@ -114,19 +114,38 @@ def crime_count(nCode):
     conn = engine.connect()
     
     # retrieve data from postgres
-    query = "select geoid, crime_type from cobra_merged where geoid = '" + nCode + "'"
+    if nCode == "ZZZ":
+        query = "select geoid, crime_type from cobra_merged"
+    else:
+        query = "select geoid, crime_type from cobra_merged where geoid = '" + nCode + "'"
+
     crime_df = pd.read_sql(query, conn)
     
     # count number of each crime by neighborhood
-    crime_count = crime_df.groupby('geoid')['crime_type'].value_counts()
-    crime_count = crime_count.unstack()
+    crime_count = crime_df['crime_type'].value_counts()
+            
+    dict = {
+        'crime_type': crime_count.index.tolist(),
+        'count': crime_count.tolist()
+    }
+        
+    return jsonify(dict)
+
+    # else: 
+    #     query = "select geoid, crime_type from cobra_merged where geoid = '" + nCode + "'"
+        
+    #     crime_df = pd.read_sql(query, conn)
     
-    # include this code to pass geoid in json
-    # crime_count = crime_count.reset_index()
+    #     # count number of each crime by neighborhood
+    #     crime_count = crime_df.groupby('geoid')['crime_type'].value_counts()
+    #     crime_count = crime_count.unstack()
     
-    # send json data to webpage
-    crime_json = crime_count.to_json(orient='records', index=True)
-    return crime_json    
+    #     # include this code to pass geoid in json
+    #     # crime_count = crime_count.reset_index()
+    
+    #     # send json data to webpage
+    #     crime_json = crime_count.to_json(orient='records', index=True)
+    #     return crime_json    
 
 ## route for radar chart
 @app.route('/api/crime-avg-distance/<nCode>')

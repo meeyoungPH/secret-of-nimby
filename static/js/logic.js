@@ -5,7 +5,7 @@ var station_geojson = d3.json('/api/stations.geojson').then(d => d);
 
 // initialize webpage
 function init(){
-    var nCode = "T02"
+    var nCode = "ZZZ"
     var crimeType = "AGG ASSAULT"
     
     populateDropdowns()
@@ -29,7 +29,7 @@ function populateDropdowns() {
         options = options.filter(d => d[1] != 'Airport')
 
         // create dropdown elements
-        d3.select('#neighborhood')
+        let ddBox = d3.select('#neighborhood')
             .selectAll('option')
                 .data(options)
             .enter()
@@ -37,6 +37,9 @@ function populateDropdowns() {
                 .text(d => d[1])
                 .attr('class','dd_options')
                 .attr('value', d => d[0]);
+
+        // select Atlanta as default value
+        ddBox.property('selected', d => d[1] == "Atlanta")
     });
 
     // crime dropdown menu
@@ -79,7 +82,6 @@ function crimeInfo(nCode) {
     
         // display neighborhood data
     d3.json(`/api/neighborhood-info/${nCode}`).then(d => {
-        // console.log(d)
         let results = d[0];
 
         // add name of neighborhood as title
@@ -93,14 +95,15 @@ function crimeInfo(nCode) {
         var totalPop = results.total_population;
         
         // add crime stats
-        crime_geojson.then(d => {
-            let results = d.features.filter(row => row.properties.geoid == nCode);
-            let crimeCount = results.length;
+        // crime_geojson.then(d => {
+        d3.json(`/api/crime-type-count/${nCode}`).then(d => {
+            // calculate sum of crimes in neighborhood
+            let sum = d.count.reduce((sum, x) => sum + x);
 
             // data for info box
             let crime_dict = {
-                'Total Crimes Reported (2022)': addCommas(crimeCount),
-                'Crime per 100,000 Pop.': addCommas(Math.round(crimeCount / totalPop * 100000))
+                'Total Crimes Reported (2022)': addCommas(sum),
+                'Crime per 100,000 Pop.': addCommas(Math.round(sum / totalPop * 100000))
             };
  
             // add crime stats to DOM
@@ -152,27 +155,13 @@ function createBarChart(nCode) {
     
     // access bar chart data
     d3.json(`/api/crime-type-count/${nCode}`).then(d => {
-
-        // save results to variable
-        let results = d[0];
-
-        // initialize arrays
-        let crimeType = [];
-        let count = [];
-        
-        // loop through dictionary values and save to arrays
-        for (const [key, value] of Object.entries(results)) {
-
-            crimeType.push(key);
-            count.push(value);
-        };
         
         // parameters for bar chart
         let data = [{
             type: 'bar',
-            x: crimeType,
-            y: count,
-            text: crimeType,
+            x: d.crime_type,
+            y: d.count,
+            text: d.crime_type,
             color: 'rgb(142,124,195)',
         }];
 
