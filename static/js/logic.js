@@ -321,7 +321,9 @@ function neighborhoodBoundaries(nCode) {
 
             if (statistica == nCode) {
                myMap.fitBounds(layer.getBounds())
-            };
+            } else {
+                myMap.setView(new L.LatLng(33.80642799242456, -84.39307142385204), 11);
+            }
         };
         
         // render boundaries
