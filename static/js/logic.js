@@ -170,15 +170,11 @@ function createBarChart(nCode) {
         let layout = {
             title: "Total Crimes by Type",
             xaxis: {
-                title: {
-                    text: 'Crime Type'
-                }
+                title: 'Crime Type',
+                automargin: true
             },
             yaxis: {
-                title: {
-                    text: 'Total Crimes'
-                },
-                automargin: true,
+                title: 'Total Crimes'
             }
         };
 
@@ -204,7 +200,9 @@ function createRadarChart(nCode) {
             type: 'scatterpolar',
             r: d.avg_distance,
             theta: d.crime_type,
-            fill: 'toself'
+            fill: 'toself',
+            fillcolor: 'rgb(142,124,195)',
+            opacity: 0.75
         }];
 
         // radar chart parameters
@@ -213,7 +211,7 @@ function createRadarChart(nCode) {
             polar: {
                 radialaxis: {
                     visible: true,
-                    range: [0, 9]
+                    range: [0, 9] 
                 }
             }
         };
