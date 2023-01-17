@@ -173,7 +173,9 @@ function createBarChart(nCode) {
             x: crimeType,
             y: count,
             text: crimeType,
-            color: 'rgb(142,124,195)',
+            marker: {
+                color: 'rgb(142,124,195)'
+            }
         }];
 
         let layout = {
@@ -186,7 +188,8 @@ function createBarChart(nCode) {
             yaxis: {
                 title: {
                     text: 'Total Crimes'
-                }
+                },
+                automargin: true,
             }
         };
 
