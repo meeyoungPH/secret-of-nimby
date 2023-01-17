@@ -1,8 +1,3 @@
-// save data to variables
-var crime_geojson = d3.json('api/crime.geojson').then(d => d);
-var neighborhood_geojson = d3.json('/api/neighborhood.geojson').then(d => d);
-var station_geojson = d3.json('/api/stations.geojson').then(d => d);
-
 // initialize webpage
 function init(){
     var nCode = "ZZZ"
@@ -263,7 +258,7 @@ zoomHome.addTo(myMap);
 
 // function to display MARTA rail station points
 function stationPoints() {
-    station_geojson.then(d => {
+    d3.json('/api/stations.geojson').then(d => {
         
         // function to create popup for each feature
         function onEachFeature(feature, layer) {
@@ -308,7 +303,7 @@ function neighborhoodBoundaries(nCode) {
     neighborhoodLayer.clearLayers();
 
     // access neighborhood data
-    neighborhood_geojson.then(d => {
+    d3.json('/api/neighborhood.geojson').then(d => {
 
         // custom colors for neighborhoods based on selection; zoom feature on selected neighborhood
         function onEachFeature(feature, layer) {
@@ -332,12 +327,7 @@ function neighborhoodBoundaries(nCode) {
             opacity: 1,
             weight: 2
         }).addTo(neighborhoodLayer);
-    }).then(d =>{
-        // code for making map clicks interactive - WIP
-        // d3.selectAll('.leaflet-interactive')
-        //     .selectAll('path')
-            // .attr('onclick',)
-    })
+    });
 };
 
 // function to add crime heat map
@@ -347,7 +337,7 @@ function crimeheatMap(crimeType){
     crimeHeatLayer.clearLayers();
 
     // access crime data
-    crime_geojson.then(d => {
+    d3.json('/api/crime.geojson').then(d => {
         
         let results = d.features;
        
@@ -380,6 +370,3 @@ function neighborhoodChanged(nCode){
 function crimeTypeChanged(crimeType){
     crimeheatMap(crimeType); // update heatmap layer
 }
-
-// TODO - remove all extraneous datasets
-
