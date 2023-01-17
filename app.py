@@ -113,7 +113,7 @@ def crime_count(nCode):
     # create DB session
     conn = engine.connect()
     
-    # retrieve data from postgres
+    # retrieve data from postgres; apply filter for neighborhood if needed
     if nCode == "ZZZ":
         query = "select geoid, crime_type from cobra_merged"
     else:
@@ -123,29 +123,14 @@ def crime_count(nCode):
     
     # count number of each crime by neighborhood
     crime_count = crime_df['crime_type'].value_counts()
-            
+    
+    # send json data to webpage
     dict = {
         'crime_type': crime_count.index.tolist(),
         'count': crime_count.tolist()
     }
         
     return jsonify(dict)
-
-    # else: 
-    #     query = "select geoid, crime_type from cobra_merged where geoid = '" + nCode + "'"
-        
-    #     crime_df = pd.read_sql(query, conn)
-    
-    #     # count number of each crime by neighborhood
-    #     crime_count = crime_df.groupby('geoid')['crime_type'].value_counts()
-    #     crime_count = crime_count.unstack()
-    
-    #     # include this code to pass geoid in json
-    #     # crime_count = crime_count.reset_index()
-    
-    #     # send json data to webpage
-    #     crime_json = crime_count.to_json(orient='records', index=True)
-    #     return crime_json    
 
 ## route for radar chart
 @app.route('/api/crime-avg-distance/<nCode>')
@@ -157,8 +142,12 @@ def avg_distance(nCode):
     # create DB session
     conn = engine.connect()
     
-    # retrieve data from postgres
-    query = "select geoid, distance_away, crime_type from cobra_merged where geoid = '" + nCode + "'"
+    # retrieve data from postgres; apply filter for neighborhood if needed
+    if nCode == "ZZZ":
+        query = "select geoid, distance_away, crime_type from cobra_merged"
+    else:
+        query = "select geoid, distance_away, crime_type from cobra_merged where geoid = '" + nCode + "'"
+    
     distance_df = pd.read_sql(query, conn)
     
     # calculate avg distance per crime type
